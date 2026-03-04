@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repasos Programación Luis Amigó</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f4f6fb;
+}
+header{
+    background: linear-gradient(90deg,#1e3c72,#2a5298);
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:28px;
+    font-weight:bold;
+}
+#buscador{
+    width:60%;
+    padding:10px;
+    margin:20px auto;
+    display:block;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+.temas{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+    padding:20px;
+}
+.tema{
+    background:white;
+    padding:15px 25px;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+.tema:hover{
+    transform:scale(1.05);
+    background:#e3ecff;
+}
+#contenido{
+    max-width:900px;
+    margin:30px auto;
+    padding:20px;
+    display:none;
+}
+.bloque{
+    margin-bottom:25px;
+}
+.codigo{
+    background:#111827;
+    color:#e5e7eb;
+    padding:20px;
+    border-radius:10px;
+    white-space:pre-wrap;
+    font-family: Consolas, monospace;
+    line-height:1.6;
+    font-size:14px;
+}
+.comentario{
+    color:#6b7280;
+    font-style:italic;
+}
+.clickable{
+    color:#38bdf8;
+    cursor:pointer;
+    text-decoration:underline;
+}
+.clickable:hover{
+    color:#7dd3fc;
+}
+.salida{
+    background:#ffffff;
+    border-left:5px solid #2a5298;
+    padding:15px;
+    border-radius:8px;
+    font-family: monospace;
+}
+.programa{
+    color:#000;
+}
+.usuario{
+    color:#1565c0;
+    font-weight:bold;
+}
+.nota{
+    color:#777;
+    font-style:italic;
+    margin-top:8px;
+}
+button{
+    margin-top:10px;
+    padding:8px 15px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#2a5298;
+    color:white;
+}
+button:hover{
+    background:#1e3c72;
+}
+footer{
+    background:#1e3c72;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:40px;
+}
+.tooltip-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+.tooltip-box{
+    background:#1e293b;
+    color:white;
+    padding:20px 25px;
+    border-radius:12px;
+    max-width:400px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+    animation:aparecer 0.2s ease;
+}
+.tooltip-box h4{
+    margin-top:0;
+}
+.tooltip-box button{
+    margin-top:15px;
+    background:#38bdf8;
+    color:black;
+}
+.variable{
+    color:#facc15;
+    cursor:pointer;
+    text-decoration:underline;
+}
+.variable:hover{
+    color:#fde047;
+}
+@keyframes aparecer{
+    from{transform:scale(0.9); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+Repasos Programación Luis Amigó
+</header>
+
+<input type="text" id="buscador" placeholder="Buscar tema...">
+
+<div class="temas" id="listaTemas"></div>
+
+<div id="contenido"></div>
+
+<footer>
+Página hecha por Johan Stiven Londoño Acosta y YorixWeb
+</footer>
+
+<script>
+
+const temas = [
+
+{
+titulo:"¿Qué es una Variable?",
+explicacion:"Una variable es un espacio donde guardamos información para usarla después.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoVariable">
+Algoritmo NombreDelPrograma   <span class="comentario">// Aquí inicia el algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','nombre','guardar el nombre del usuario')">nombre</span> <span class="clickable" onclick="mostrarInfo('cadena')">Como Cadena</span>   <span class="comentario">// Creamos una variable que guardará texto</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Escribe tu nombre:"   <span class="comentario">// Mostramos un mensaje en pantalla</span>
+
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','nombre','guardar el nombre que escribe el usuario')">nombre</span>   <span class="comentario">// Guardamos lo que escribe el usuario</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Hola ", <span class="variable" onclick="mostrarInfo('variable','nombre','mostrar el nombre que el usuario escribió')">nombre</span>   <span class="comentario">// Mostramos el saludo</span>
+
+FinAlgoritmo   <span class="comentario">// Aquí termina el algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoVariable')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Escribe tu nombre:</div>
+<div class="usuario">johan  <span class="comentario">// Aquí iria cualquier texto que ponga el cliente</span></div>
+<div class="programa">Hola johan</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Si Entonces",
+explicacion:"La estructura Si Entonces permite tomar decisiones dependiendo de una condición lógica.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoSiEntonces">
+Algoritmo MayorEdad   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','edad','guardar la edad del usuario')">edad</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>   <span class="comentario">// Variable numérica</span>
+
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','edad','guardar el número que escribe el usuario')">edad</span>   <span class="comentario">// Guardamos la edad</span>
+
+    <span class="clickable" onclick="mostrarInfo('si')">Si</span> <span class="variable" onclick="mostrarInfo('variable','edad','comparar la edad ingresada')">edad</span> <span class="clickable" onclick="mostrarInfo('condicion')">>=</span> 18 <span class="clickable" onclick="mostrarInfo('entonces')">Entonces</span>   <span class="comentario">// Evaluamos la condición</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Eres mayor de edad"
+
+    <span class="clickable" onclick="mostrarInfo('sino')">SiNo</span>   <span class="comentario">// Si la condición no se cumple</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Eres menor de edad"
+
+    <span class="clickable" onclick="mostrarInfo('finsi')">FinSi</span>   <span class="comentario">// Fin de la estructura condicional</span>
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoSiEntonces')">Copiar código</button>
+
+<div class="salida">
+<div class="usuario">20 <span class="comentario">// Aquí iria cualquier numero que ponga el cliente</span></div>
+<div class="programa">Eres mayor de edad</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Ciclo Para",
+explicacion:"El ciclo Para sirve para repetir instrucciones varias veces sin tener que escribirlas una por una.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoCicloPara">
+Algoritmo CicloPara   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('para')">Para</span> <span class="variable" onclick="mostrarInfo('variable','i','controlar cuántas veces se repite el ciclo')">i</span> = 1 <span class="clickable" onclick="mostrarInfo('hasta')">Hasta</span> 5 <span class="clickable" onclick="mostrarInfo('conpaso')">Con Paso</span> 1 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>   <span class="comentario">// Repite desde 1 hasta 5</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','i','mostrar el número actual del ciclo')">i</span>
+
+    <span class="clickable" onclick="mostrarInfo('finpara')">FinPara</span>   <span class="comentario">// Fin del ciclo</span>
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoCicloPara')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">1</div>
+<div class="programa">2</div>
+<div class="programa">3</div>
+<div class="programa">4</div>
+<div class="programa">5</div>
+<div class="nota">Nota: El ciclo inicia en 1 y termina en 5 avanzando de 1 en 1.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Ciclo Mientras",
+explicacion:"El ciclo Mientras repite un bloque de instrucciones mientras se cumpla una condición. Aquí se muestran dos ejemplos: uno con números y otro con texto.",
+codigo:`
+<!-- Ejemplo 1: números -->
+<div class="bloque">
+<h3>Ejemplo 1: Ciclo con números</h3>
+<div class="codigo" id="codigoNumeros">
+Algoritmo CicloMientrasNumerico   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','num','controlar cuántas veces se repite el ciclo')">num</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','num','inicializamos en 1')">num</span> = 1
+
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','num','comparar con 3 para saber cuándo parar')">num</span> <= 3 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','num','mostrar el número actual')">num</span>
+
+        <span class="variable" onclick="mostrarInfo('variable','num','aumentar num en 1 cada vez')">num</span> = <span class="variable" onclick="mostrarInfo('variable','num','aumentar num en 1 cada vez')">num</span> + 1
+
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+
+FinAlgoritmo
+</div>
+<button onclick="copiarCodigoId('codigoNumeros')">Copiar código</button>
+<div class="salida">
+<div class="programa">1</div>
+<div class="programa">2</div>
+<div class="programa">3</div>
+<div class="nota">Nota: El ciclo termina cuando num > 3.</div>
+</div>
+</div>
+
+<!-- Ejemplo 2: Ciclo con texto -->
+<div class="bloque">
+<h3>Ejemplo 2: Ciclo con texto</h3>
+<div class="codigo" id="codigoTexto2">Algoritmo CicloMientrasTexto <span class="comentario">// Inicio del algoritmo</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','respuesta','guardar la respuesta del usuario')">respuesta</span> <span class="clickable" onclick="mostrarInfo('cadena')">Como Cadena</span>
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','respuesta','comparar si es diferente de Si')">respuesta</span> <span class="variable" onclick="mostrarInfo('diferente')">&lt;&gt;</span> "Si" <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Escribe (Si) para salir del bucle:"
+        <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','respuesta','guardar lo que escribe el usuario')">respuesta</span>
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+FinAlgoritmo
+</div>
+<button onclick="copiarCodigoId('codigoTexto2')">Copiar código</button>
+<div class="salida">
+<div class="programa">Escribe 'Si' para salir del bucle:</div>
+<div class="usuario">No</div>
+<div class="programa">Escribe 'Si' para salir del bucle:</div>
+<div class="usuario">No</div>
+<div class="programa">Escribe 'Si' para salir del bucle:</div>
+<div class="usuario">Si</div>
+<div class="programa">El bucle terminó.</div>
+<div class="nota">Nota: El ciclo termina cuando el usuario escribe 'Si' (esto incluye mayúsculas. Si se utiliza 'si' en lugar de 'Si', se contará como texto distinto).</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Contadores",
+explicacion:"Un contador es una variable que aumenta normalmente de uno en uno. Se usa para llevar la cuenta de cuántas veces ocurre algo.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Contador</h3>
+<div class="codigo" id="codigoContador">
+Proceso ContadorEjemplo   <span class="comentario">// Inicio del proceso</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','contador','guardar el valor del contador')">contador</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>   <span class="comentario">// Creamos la variable contador</span>
+    
+    <span class="variable" onclick="mostrarInfo('variable','contador','inicializamos en 0')">contador</span> = 0   <span class="comentario">// Inicializamos en 0</span>
+    
+    <span class="variable" onclick="mostrarInfo('variable','contador','aumentamos en 1')">contador</span> = <span class="variable" onclick="mostrarInfo('variable','contador','aumentamos en 1')">contador</span> + 1
+    
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','contador','mostrar el valor actual del contador')">contador</span>
+FinProceso   <span class="comentario">// Fin del proceso</span>
+</div>
+<button onclick="copiarCodigoId('codigoContador')">Copiar código</button>
+<div class="salida">
+<div class="programa">1</div>
+<div class="nota">Nota: El contador inició en 0 y aumentó en 1.</div>
+<div class="nota">Esto se suele usar para poder determinar un numero de personas o de datos y que se sume cada vez q da una vuelta a un ciclo o que se inserta algo.</div>
+</div>
+</div>
+`,
+salida:"" // ya está incluido dentro del bloque
+},
+
+{
+titulo:"Acumuladores",
+explicacion:"Un acumulador es una variable que va guardando una suma. A diferencia del contador, no aumenta solo de uno en uno, sino que puede sumar diferentes valores.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Acumulador</h3>
+<div class="codigo" id="codigoAcumulador">Proceso EjemploAcumulador <span class="comentario">// Inicio del proceso</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','suma','guardar la suma total')">suma</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número que ingresa el usuario')">numero</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','suma','inicializar en 0 porque es un acumulador')">suma</span> = 0
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa un número:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número que escribe el usuario')">numero</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','suma','sumar el número ingresado al total acumulado')">suma</span> = <span class="variable" onclick="mostrarInfo('variable','suma','sumar el número ingresado al total acumulado')">suma</span> + <span class="variable" onclick="mostrarInfo('variable','numero','valor que se agrega al acumulador')">numero</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "La suma total es:", <span class="variable" onclick="mostrarInfo('variable','suma','mostrar el resultado acumulado')">suma</span>
+FinProceso
+</div>
+<button onclick="copiarCodigoId('codigoAcumulador')">Copiar código</button>
+<div class="salida">
+<div class="programa">Ingresa un número:</div>
+<div class="usuario">5</div>
+<div class="programa">La suma total es: 5</div>
+<div class="nota">Nota: El acumulador empezó en 0 y luego se le sumó el número ingresado.</div>
+<div class="nota">Esto sirve para poder ir acomulando un valor como diferentes precios para ver el total de una compra o la suma de varios valores</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Sacar Promedio de Notas",
+
+antesCodigo:"antes del codigo se debe saber que para sacar un promedio se necesita sumar los valores a los cuales quieres promediar y dividirlos por la cantidad de valores que tienes. por ejemplo si tienes las notas 1 4 y 2 las tienes q sumar todas (1+4+2) y dividirlas por el numero de notas (en este caso 3) lo cual quedaria (1+4+2)=7 y se divide entre 3    7/3= 2,3  siendo 2,3 el promedio",
+
+explicacion:"Este ejemplo muestra cómo calcular el promedio cuando no sabemos cuántas notas ingresará el usuario. Se usan un acumulador para sumar las notas y un contador para saber cuántas se ingresaron.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Promedio con cantidad indeterminada</h3>
+
+<div class="codigo" id="codigoPromedio">
+Algoritmo PromedioNotas   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','nota','guardar cada nota ingresada')">nota</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','suma','acumular todas las notas')">suma</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','contador','contar cuántas notas se ingresan')">contador</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','promedio','guardar el resultado final')">promedio</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span> <span class="comentario">// como el promedio nos puede dar un numero decimal como 1.4 o 3.5 le vamos a definir como real (osea que incluye enteros y decimales) </span>
+
+    <span class="variable" onclick="mostrarInfo('variable','suma','inicia en 0 porque es acumulador')">suma</span> = 0
+    <span class="variable" onclick="mostrarInfo('variable','contador','inicia en 0 porque es contador')">contador</span> = 0
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa una nota (o -1 para terminar):"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','nota','guardar la nota ingresada')">nota</span>
+
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','nota','verificar que no sea -1')">nota</span> <span class="variable" onclick="mostrarInfo('diferente')">&lt;&gt;</span> -1 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span> <span class="comentario">// esto es para que cuando queramos salir del ciclo mientras y dejar de introducir notas solo se tenga que escribir -1</span>
+
+        <span class="variable" onclick="mostrarInfo('variable','suma','sumar cada nota al total')">suma</span> = <span class="variable" onclick="mostrarInfo('variable','suma','sumar cada nota al total')">suma</span> + <span class="variable" onclick="mostrarInfo('variable','nota','valor que se suma')">nota</span>
+        <span class="variable" onclick="mostrarInfo('variable','contador','aumentar en 1 cada vez que entra una nota')">contador</span> = <span class="variable" onclick="mostrarInfo('variable','contador','aumentar en 1 cada vez que entra una nota')">contador</span> + 1
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa otra nota (o -1 para terminar):"
+        <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','nota','guardar nueva nota')">nota</span>
+
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','promedio','dividir la suma entre el contador')">promedio</span> = <span class="variable" onclick="mostrarInfo('variable','suma','total acumulado')">suma</span> / <span class="variable" onclick="mostrarInfo('variable','contador','cantidad de notas ingresadas')">contador</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El promedio es:", <span class="variable" onclick="mostrarInfo('variable','promedio','mostrar resultado final')">promedio</span>
+
+FinAlgoritmo
+</div>
+
+<button onclick="copiarCodigoId('codigoPromedio')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingresa una nota (o -1 para terminar):</div>
+<div class="usuario">4</div>
+<div class="programa">Ingresa otra nota (o -1 para terminar):</div>
+<div class="usuario">5</div>
+<div class="programa">Ingresa otra nota (o -1 para terminar):</div>
+<div class="usuario">3</div>
+<div class="programa">Ingresa otra nota (o -1 para terminar):</div>
+<div class="usuario">-1</div>
+<div class="programa">El promedio es: 4</div>
+<div class="nota">Nota: Se sumaron las notas (4+5+3=12) y se dividieron entre 3.</div>
+</div>
+</div>
+`,
+
+salida:""
+},
+
+{
+titulo:"Tablas de Multiplicar",
+
+explicacion:"Este ejemplo muestra cómo generar la tabla de multiplicar de cualquier número usando un ciclo Para. El ciclo repetirá la multiplicación desde 1 hasta 10 mostrando cada resultado.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Tabla de multiplicar con ciclo Para</h3>
+
+<div class="codigo" id="codigoTabla">
+
+Algoritmo TablaMultiplicar   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número del que se quiere la tabla')">numero</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','i','contador que irá del 1 al 10')">i</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa el número para ver su tabla:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar número ingresado')">numero</span>
+
+    <span class="clickable" onclick="mostrarInfo('para')">Para</span> <span class="variable" onclick="mostrarInfo('variable','i','inicia en 1')">i</span> <- 1 Hasta 10 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','numero','número elegido')">numero</span> " x " <span class="variable" onclick="mostrarInfo('variable','i','valor actual del ciclo')">i</span> " = " <span class="variable" onclick="mostrarInfo('variable','numero','número elegido')">numero</span> * <span class="variable" onclick="mostrarInfo('variable','i','valor actual del ciclo')">i</span>
+
+    <span class="clickable" onclick="mostrarInfo('finpara')">FinPara</span>
+
+FinAlgoritmo
+
+</div>
+
+<button onclick="copiarCodigoId('codigoTabla')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingresa el número para ver su tabla:</div>
+<div class="usuario">5</div>
+<div class="programa">5 x 1 = 5</div>
+<div class="programa">5 x 2 = 10</div>
+<div class="programa">5 x 3 = 15</div>
+<div class="programa">5 x 4 = 20</div>
+<div class="programa">5 x 5 = 25</div>
+<div class="programa">5 x 6 = 30</div>
+<div class="programa">5 x 7 = 35</div>
+<div class="programa">5 x 8 = 40</div>
+<div class="programa">5 x 9 = 45</div>
+<div class="programa">5 x 10 = 50</div>
+<div class="nota">Nota: El ciclo repite la multiplicación desde 1 hasta 10 automáticamente.</div>
+</div>
+</div>
+`,
+
+salida:""
+},
+
+{
+titulo:"Aplicar Descuentos",
+
+antesCodigo:"Antes del código debes saber que un descuento se calcula multiplicando el precio por el porcentaje que se quiere descontar. Por ejemplo, si algo cuesta 100 y se le aplica un 20% de descuento, primero se calcula 100 * 0.20 = 20. Luego ese valor se resta al precio original: 100 - 20 = 80. Ese sería el precio final.",
+
+explicacion:"Este ejemplo muestra cómo calcular el precio final de un producto aplicando un 20% de descuento. Se usa una variable para guardar el precio original, otra para el descuento y otra para el precio final.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Aplicar 20% de descuento</h3>
+
+<div class="codigo" id="codigoDescuento">
+
+Algoritmo AplicarDescuento   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','precio','guardar el precio original')">precio</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','descuento','guardar el valor del descuento')">descuento</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','precioFinal','guardar el precio con descuento aplicado')">precioFinal</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingrese el precio del producto:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','precio','precio ingresado por el usuario')">precio</span>
+
+    <span class="comentario">// Calculamos el 20% del precio</span>
+    <span class="variable" onclick="mostrarInfo('variable','descuento','calcular el 20% del precio')">descuento</span> = <span class="variable" onclick="mostrarInfo('variable','precio','precio original')">precio</span> * 0.20
+
+    <span class="comentario">// Restamos el descuento al precio original</span>
+    <span class="variable" onclick="mostrarInfo('variable','precioFinal','precio después del descuento')">precioFinal</span> = <span class="variable" onclick="mostrarInfo('variable','precio','precio original')">precio</span> - <span class="variable" onclick="mostrarInfo('variable','descuento','valor descontado')">descuento</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El precio con descuento es:", <span class="variable" onclick="mostrarInfo('variable','precioFinal','mostrar resultado final')">precioFinal</span>
+
+FinAlgoritmo
+
+</div>
+
+<button onclick="copiarCodigoId('codigoDescuento')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingrese el precio del producto:</div>
+<div class="usuario">200</div>
+<div class="programa">El precio con descuento es: 160</div>
+<div class="nota">Nota: Se calculó el 20% de 200 (200 * 0.20 = 40) y luego se restó al precio original (200 - 40 = 160).</div>
+</div>
+</div>
+`,
+
+salida:""
+}
+
+];
+
+const lista = document.getElementById("listaTemas");
+const contenido = document.getElementById("contenido");
+const buscador = document.getElementById("buscador");
+
+function mostrarTemas(filtro=""){
+    lista.innerHTML="";
+    temas
+    .filter(t=>t.titulo.toLowerCase().includes(filtro.toLowerCase()))
+    .forEach((tema,index)=>{
+        const div=document.createElement("div");
+        div.className="tema";
+        div.textContent=tema.titulo;
+        div.onclick=()=>mostrarContenido(index);
+        lista.appendChild(div);
+    });
+}
+
+function mostrarContenido(index){
+    const tema=temas[index];
+    lista.style.display="none";
+    buscador.style.display="none";
+    contenido.style.display="block";
+
+    contenido.innerHTML=`
+        <h2>${tema.titulo}</h2>
+
+        ${tema.antesCodigo ? `
+        <div class="bloque">
+            <h3>Antes del código</h3>
+            <p>${tema.antesCodigo}</p>
+        </div>
+        ` : ''}
+
+        <div class="bloque">
+            <h3>Explicación</h3>
+            <p>${tema.explicacion}</p>
+        </div>
+
+        <div class="bloque">
+            <h3>Código</h3>
+            ${tema.codigo}
+        </div>
+
+        ${tema.salida ? `<div class="bloque"><div class="salida">${tema.salida}</div></div>` : ''}
+
+        <button onclick="volver()">Volver</button>
+    `;
+}
+
+function copiarCodigo(){
+    const texto = document.getElementById("codigoTexto").innerText;
+    navigator.clipboard.writeText(texto);
+}
+
+function copiarCodigoId(id){
+    const texto = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(texto);
+}
+
+function volver(){
+    contenido.style.display="none";
+    lista.style.display="flex";
+    buscador.style.display="block";
+}
+
+function mostrarInfo(tipo, nombreVar = "", proposito = ""){
+
+    let texto = "";
+
+    if(tipo === "definir"){
+        texto = "Definir se usa para crear una variable.";
+    }
+
+    else if(tipo === "cadena"){
+        texto = "Cadena significa que la variable guardará texto.";
+    }
+
+    else if(tipo === "leer"){
+        texto = "Leer sirve para guardar lo que el usuario escribe.";
+    }
+
+    else if(tipo === "escribir"){
+        texto = "Escribir sirve para mostrar mensajes en pantalla.";
+    }
+
+    else if(tipo === "y"){
+        texto = "Y es un operador lógico que une dos condiciones.";
+    }
+
+    else if(tipo === "si"){
+        texto = "Si indica que vamos a evaluar una condición.";
+    }
+
+    else if(tipo === "entero"){
+        texto = "Entero significa que la variable guardará números enteros.";
+    }
+
+    else if(tipo === "mientras"){
+        texto = "Mientras se usa para repetir instrucciones mientras una condición sea verdadera.";
+    }
+
+    else if(tipo === "hacer"){
+        texto = "Hacer indica el inicio del bloque de instrucciones dentro de un ciclo o condición.";
+    }
+
+    else if(tipo === "finmientras"){
+        texto = "FinMientras indica el final del ciclo Mientras.";
+    }
+
+    else if(tipo === "variable"){
+        texto = `Variable ${nombreVar}: ${proposito}`;
+    }
+
+    else if(tipo === "siNo"){
+        texto = "SiNo se ejecuta si la condición del Si no se cumple.";
+    }
+
+    else if(tipo === "finSi"){
+        texto = "FinSi indica el final de la estructura condicional Si Entonces.";
+    }
+
+    else if(tipo === "diferente"){
+        texto = "'<>' es un operador que significa 'diferente de'. Se usa para comparar valores.";
+    }
+
+    else if(tipo === "real"){
+        texto = "Real significa que la variable puede guardar números con decimales. Como 1,222 o 6,314";
+    }
+
+    else{
+        texto = "Información no disponible.";
+    }
+
+    
+
+    const overlay = document.createElement("div");
+    overlay.className = "tooltip-overlay";
+    const box = document.createElement("div");
+    box.className = "tooltip-box";
+    box.innerHTML=`<h4>Información</h4><p>${texto}</p><button onclick="cerrarTooltip()">Cerrar</button>`;
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
+
+function cerrarTooltip(){
+    const overlays = document.querySelectorAll(".tooltip-overlay");
+    overlays.forEach(o=>o.remove());
+}
+
+buscador.addEventListener("input",(e)=>mostrarTemas(e.target.value));
+
+mostrarTemas();
+
+</script>
+
+</body>
+</html>
