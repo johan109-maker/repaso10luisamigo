@@ -564,6 +564,149 @@ FinAlgoritmo
 `,
 
 salida:""
+},
+
+{
+titulo:"Función Módulo (MOD)",
+
+antesCodigo:"El módulo (MOD) se usa para saber qué sobra cuando dividimos un número. Por ejemplo, si dividimos 7 entre 2, sobra 1. Ese número que sobra es lo que nos da el MOD. Se usa mucho para saber si un número es par o impar, para turnarse en juegos (como jugador 1 y jugador 2), o para hacer que algo se repita cada cierto tiempo.",
+explicacion:"El operador MOD se usa para saber el residuo de una división. Es muy útil para verificar si un número es par o impar, ya que todos los números pares al dividirse entre 2 tienen residuo 0.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Saber si un número es par o impar</h3>
+
+<div class="codigo" id="codigoModulo">
+
+Algoritmo NumeroParImpar   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número ingresado')">numero</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','residuo','guardar el residuo de la división')">residuo</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa un número:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','numero','número ingresado por el usuario')">numero</span>
+
+    <span class="comentario">// Calculamos el residuo usando MOD</span>
+    <span class="variable" onclick="mostrarInfo('variable','residuo','guardar el residuo de numero dividido entre 2')">residuo</span> = <span class="variable" onclick="mostrarInfo('variable','numero','número ingresado')">numero</span> <span class="clickable" onclick="mostrarInfo('mod')">MOD</span> 2
+
+    <span class="clickable" onclick="mostrarInfo('si')">Si</span> <span class="variable" onclick="mostrarInfo('variable','residuo','verificamos si el residuo es 0')">residuo</span> = 0 <span class="clickable" onclick="mostrarInfo('entonces')">Entonces</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El número es par"
+
+    <span class="clickable" onclick="mostrarInfo('sino')">SiNo</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El número es impar"
+
+    <span class="clickable" onclick="mostrarInfo('finsi')">FinSi</span>
+
+FinAlgoritmo
+
+</div>
+
+<button onclick="copiarCodigoId('codigoModulo')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingresa un número:</div>
+<div class="usuario">7</div>
+<div class="programa">El número es impar</div>
+<div class="nota">Nota: 7 MOD 2 = 1. Como el residuo no es 0, el número es impar.</div>
+</div>
+</div>
+`,
+
+salida:""
+},
+
+{
+titulo:"Activadores",
+antesCodigo:"Un activador es una variable que usamos como interruptor. Sirve para activar o desactivar algo dentro del programa. Normalmente guarda un valor como Verdadero o Falso, y dependiendo de eso el programa hace algo o no lo hace. Se usa mucho para controlar accesos, validar información o repetir procesos hasta que ocurra algo.",
+explicacion:"Un activador funciona como un botón invisible dentro del programa. Cuando está en Verdadero permite que algo pase, y cuando está en Falso lo detiene. Es muy útil para controlar ciclos, evitar errores o manejar permisos dentro de un programa.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoActivadores">
+Algoritmo PuertaConCiclo   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> Como <span class="clickable" onclick="mostrarInfo('logico')">Logico</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> = <span class="clickable" onclick="mostrarInfo('falso')">Falso</span>   <span class="comentario">// La puerta está cerrada</span>
+
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> = <span class="clickable" onclick="mostrarInfo('falso')">Falso</span> <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "¿Quieres abrir la puerta? (si/no)"
+        <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> respuesta
+
+        <span class="clickable" onclick="mostrarInfo('si')">Si</span> respuesta = "si" <span class="clickable" onclick="mostrarInfo('entonces')">Entonces</span>
+            <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> = <span class="clickable" onclick="mostrarInfo('verdadero')">Verdadero</span>   <span class="comentario">// Se activa</span>
+        <span class="clickable" onclick="mostrarInfo('finsi')">FinSi</span>
+
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "La puerta se abrió 🎉"
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoActivadores')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">¿Quieres abrir la puerta? (si/no)</div>
+<div class="programa">si</div>
+<div class="programa">La puerta se abrió 🎉</div>
+<div class="nota">Nota: Mientras puertaAbierta era Falso, el programa seguía preguntando. Cuando cambió a Verdadero, salió del ciclo.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Jerarquía de Operaciones",
+antesCodigo:"Cuando hacemos varias operaciones en una misma línea (como sumar y multiplicar), no se resuelven en el orden en que aparecen. Hay un orden especial que el programa siempre respeta. Primero se hacen las multiplicaciones y divisiones, y después las sumas y restas.",
+explicacion:"Si no seguimos el orden correcto, el resultado cambia. El programa siempre resuelve primero multiplicar o dividir, y al final sumar o restar.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoJerarquia">
+Algoritmo OrdenOperaciones   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> resultado <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    resultado = 2 + 3 * 4   <span class="comentario">// ¿Cuánto da esto?</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> resultado
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoJerarquia')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">14</div>
+<div class="nota">
+Muchos pensarían: (2 + 3) = 5 y 5 * 4 = 20 ❌<br>
+Pero el programa hace primero 3 * 4 = 12 ✔<br>
+Luego 2 + 12 = 14 ✔<br><br>
+
+Primero multiplicar y dividir.<br>
+Después sumar y restar.<br><br>
+
+Si queremos que la suma se haga primero, usamos paréntesis:<br>
+(2 + 3) * 4 = 20 ✔<br><br>
+
+Ejemplo más claro:<br>
+12 + 14 * 2 = 40 ❌<br>
+Porque primero se hace 14 * 2 = 28 y luego 12 + 28 = 40.<br><br>
+
+Pero si queremos sumar primero:<br>
+(12 + 14) * 2 = 52 ✔<br>
+Los paréntesis obligan al programa a resolver eso primero.
+</div>
+</div>
+</div>
+`,
+salida:""
 }
 
 ];
@@ -670,7 +813,7 @@ function mostrarInfo(tipo, nombreVar = "", proposito = ""){
     }
 
     else if(tipo === "hacer"){
-        texto = "Hacer indica el inicio del bloque de instrucciones dentro de un ciclo o condición.";
+        texto = "Hacer indica que todo lo que este debajo y dentro del ciclo se repetira hasta que termine";
     }
 
     else if(tipo === "finmientras"){
@@ -695,6 +838,54 @@ function mostrarInfo(tipo, nombreVar = "", proposito = ""){
 
     else if(tipo === "real"){
         texto = "Real significa que la variable puede guardar números con decimales. Como 1,222 o 6,314";
+    }
+
+    else if(tipo === "entonces"){
+        texto = "Entonces forma parte de la estructura Si. Se ejecuta cuando la condición es verdadera.";
+    }
+
+    else if(tipo === "sino"){
+        texto = "SiNo se ejecuta cuando la condición del Si no se cumple.";
+    }
+
+    else if(tipo === "finsi"){
+        texto = "FinSi indica el final de la estructura condicional Si Entonces.";
+    }
+
+    else if(tipo === "para"){
+        texto = "Para se usa para repetir instrucciones un número específico de veces.";
+    }
+
+    else if(tipo === "hasta"){
+        texto = "Hasta indica el número final al que llegará el ciclo Para.";
+    }
+
+    else if(tipo === "conpaso"){
+        texto = "Con Paso indica de cuánto en cuánto aumenta el contador en cada repetición.";
+    }
+
+    else if(tipo === "finpara"){
+        texto = "FinPara indica el final del ciclo Para.";
+    }
+
+    else if(tipo === "condicion"){
+        texto = "'>=' significa 'mayor o igual que'. Se usa para comparar dos valores y verificar si el primero es mayor o igual al segundo.";
+    }
+
+    else if(tipo === "mod"){
+        texto = "MOD devuelve el residuo de una división. Por ejemplo: 10 MOD 3 = 1.";
+    }
+
+    else if(tipo === "logico"){
+        texto = "Lógico significa que la variable solo puede tener dos valores: Verdadero o Falso. Se usa mucho como activador.";
+    }
+
+    else if(tipo === "falso") {
+        texto = "Falso significa que algo no es cierto o está desactivado. Es como decir: no, todavía no ha pasado.";
+    }
+
+    else if(tipo === "verdadero") {
+        texto = "Verdadero significa que algo es cierto o está activado. Es como decir: sí, está funcionando."
     }
 
     else{
