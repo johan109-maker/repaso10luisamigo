@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repasos Programación Luis Amigó</title>
+
+<style>
+:root{
+    --azul:#1e3c72;
+    --azul-claro:#2a5298;
+    --tinta:#172033;
+    --borde:#d8e1ef;
+    --fondo:#f4f6fb;
+    --panel:#ffffff;
+    --verde:#0f766e;
+    --ambar:#b45309;
+}
+*{
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:var(--fondo);
+    color:var(--tinta);
+}
+header{
+    background: linear-gradient(120deg,var(--azul),var(--azul-claro));
+    color:white;
+    text-align:center;
+    padding:28px 20px;
+    font-size:28px;
+    font-weight:bold;
+}
+.subtitulo{
+    max-width:900px;
+    margin:10px auto 0;
+    font-size:15px;
+    font-weight:normal;
+    line-height:1.5;
+    opacity:.95;
+}
+.app{
+    width:min(1100px,92%);
+    margin:26px auto 0;
+}
+.panel-menu{
+    background:var(--panel);
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:18px;
+    box-shadow:0 10px 24px rgba(30,60,114,0.08);
+}
+.menu-superior{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+}
+.menu-superior h2{
+    margin:0;
+    font-size:22px;
+}
+.contador{
+    margin:4px 0 0;
+    color:#64748b;
+    font-size:14px;
+}
+.lenguajes{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+.lenguaje-btn{
+    margin:0;
+    background:#eef4ff;
+    color:var(--azul);
+    border:1px solid #c9d8f2;
+    border-radius:8px;
+    padding:9px 12px;
+    font-weight:bold;
+}
+.lenguaje-btn:hover,
+.lenguaje-btn.activo{
+    background:var(--azul);
+    color:white;
+}
+#buscador{
+    width:100%;
+    padding:12px 14px;
+    margin:18px 0 0;
+    display:block;
+    border-radius:8px;
+    border:1px solid var(--borde);
+    font-size:16px;
+    outline:none;
+}
+#buscador:focus{
+    border-color:var(--azul-claro);
+    box-shadow:0 0 0 3px rgba(42,82,152,0.14);
+}
+.temas{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:14px;
+    padding:20px 0;
+}
+.tema{
+    background:white;
+    min-height:92px;
+    padding:16px;
+    border:1px solid var(--borde);
+    border-radius:8px;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+    transition:0.2s;
+}
+.tema:hover{
+    transform:translateY(-3px);
+    border-color:#9bb6e8;
+    background:#f8fbff;
+}
+.tema.carpeta{
+    border-color:#f0c36d;
+    background:#fffaf0;
+}
+.tema.carpeta span::before{
+    content:"Carpeta: ";
+    color:var(--ambar);
+    font-weight:bold;
+}
+.tema strong{
+    display:block;
+    margin-bottom:8px;
+    font-size:17px;
+}
+.tema span{
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    color:#64748b;
+    font-size:13px;
+    line-height:1.4;
+}
+.vacio{
+    display:none;
+    margin:16px 0 4px;
+    padding:18px;
+    border:1px dashed #b6c4d9;
+    border-radius:8px;
+    background:#f8fafc;
+    color:#475569;
+    text-align:center;
+}
+#contenido{
+    max-width:900px;
+    margin:24px auto 0;
+    padding:22px;
+    display:none;
+    background:white;
+    border:1px solid var(--borde);
+    border-radius:8px;
+    box-shadow:0 10px 24px rgba(30,60,114,0.08);
+}
+.etiqueta-lenguaje{
+    display:inline-block;
+    margin-bottom:8px;
+    padding:5px 9px;
+    border-radius:8px;
+    background:#ecfdf5;
+    color:var(--verde);
+    font-size:13px;
+    font-weight:bold;
+}
+.bloque{
+    margin-bottom:25px;
+}
+.codigo{
+    overflow:auto;
+    background:#111827;
+    color:#e5e7eb;
+    padding:20px;
+    border-radius:8px;
+    white-space:pre-wrap;
+    font-family: Consolas, monospace;
+    line-height:1.6;
+    font-size:14px;
+}
+.comentario{
+    color:#9ca3af;
+    font-style:italic;
+}
+.clickable{
+    color:#38bdf8;
+    cursor:pointer;
+    text-decoration:underline;
+}
+.clickable:hover{
+    color:#7dd3fc;
+}
+.salida{
+    background:#ffffff;
+    border-left:5px solid var(--azul-claro);
+    padding:15px;
+    border-radius:8px;
+    font-family: monospace;
+}
+.subtema{
+    margin:12px 0;
+    border:1px solid var(--borde);
+    border-radius:8px;
+    background:#f8fafc;
+    overflow:hidden;
+}
+.subtema summary{
+    padding:12px 14px;
+    cursor:pointer;
+    font-weight:bold;
+    color:var(--azul);
+    background:#eef4ff;
+}
+.subtema-contenido{
+    padding:14px;
+}
+.subtema-contenido p{
+    margin-top:0;
+}
+.programa{
+    color:#000;
+}
+.usuario{
+    color:#1565c0;
+    font-weight:bold;
+}
+.nota{
+    color:#777;
+    font-style:italic;
+    margin-top:8px;
+}
+button{
+    margin-top:10px;
+    padding:9px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:var(--azul-claro);
+    color:white;
+}
+button:hover{
+    background:var(--azul);
+}
+footer{
+    background:var(--azul);
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:40px;
+}
+.tooltip-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+.tooltip-box{
+    background:#1e293b;
+    color:white;
+    padding:20px 25px;
+    border-radius:12px;
+    max-width:400px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+    animation:aparecer 0.2s ease;
+}
+.tooltip-box h4{
+    margin-top:0;
+}
+.tooltip-box button{
+    margin-top:15px;
+    background:#38bdf8;
+    color:black;
+}
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:24px;
+    transform:translateX(-50%);
+    background:#0f766e;
+    color:white;
+    padding:10px 16px;
+    border-radius:8px;
+    box-shadow:0 8px 20px rgba(15,118,110,0.25);
+    z-index:1000;
+    font-size:14px;
+    opacity:0;
+    animation:toast 2s ease forwards;
+}
+.toast.error{
+    background:#b91c1c;
+    box-shadow:0 8px 20px rgba(185,28,28,0.25);
+}
+.variable{
+    color:#facc15;
+    cursor:pointer;
+    text-decoration:underline;
+}
+.variable:hover{
+    color:#fde047;
+}
+@keyframes aparecer{
+    from{transform:scale(0.9); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+@keyframes toast{
+    0%{opacity:0; transform:translate(-50%,10px);}
+    15%{opacity:1; transform:translate(-50%,0);}
+    80%{opacity:1; transform:translate(-50%,0);}
+    100%{opacity:0; transform:translate(-50%,10px);}
+}
+@media (max-width:700px){
+    header{
+        font-size:23px;
+        padding:22px 16px;
+    }
+    .panel-menu,
+    #contenido{
+        padding:16px;
+    }
+    .menu-superior{
+        align-items:flex-start;
+    }
+    .lenguajes{
+        width:100%;
+    }
+    .lenguaje-btn{
+        flex:1 1 46%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+Repasos Programación Luis Amigó
+<div class="subtitulo">Guía por lenguajes para estudiar programación paso a paso: primero PSeInt, después Python, Python Tkinter y C++.</div>
+</header>
+
+<main class="app">
+<section class="panel-menu" id="panelMenu">
+<div class="menu-superior">
+    <div>
+        <h2 id="lenguajeActual">PSeInt</h2>
+        <p class="contador" id="contadorTemas">Temas disponibles</p>
+    </div>
+    <div class="lenguajes" id="menuLenguajes"></div>
+</div>
+
+<input type="text" id="buscador" placeholder="Buscar tema...">
+
+<div class="temas" id="listaTemas"></div>
+<div class="vacio" id="vistaVacia"></div>
+</section>
+
+<div id="contenido"></div>
+</main>
+
+<footer>
+Página hecha por Johan Stiven Londoño Acosta y YorixWeb
+</footer>
+
+<script>
+
+const temas = [
+
+{
+titulo:"¿Qué es una Variable?",
+explicacion:"Una variable es un espacio donde guardamos información para usarla después.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoVariable">
+Algoritmo NombreDelPrograma   <span class="comentario">// Aquí inicia el algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','nombre','guardar el nombre del usuario')">nombre</span> <span class="clickable" onclick="mostrarInfo('cadena')">Como Cadena</span>   <span class="comentario">// Creamos una variable que guardará texto</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Escribe tu nombre:"   <span class="comentario">// Mostramos un mensaje en pantalla</span>
+
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','nombre','guardar el nombre que escribe el usuario')">nombre</span>   <span class="comentario">// Guardamos lo que escribe el usuario</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Hola ", <span class="variable" onclick="mostrarInfo('variable','nombre','mostrar el nombre que el usuario escribió')">nombre</span>   <span class="comentario">// Mostramos el saludo</span>
+
+FinAlgoritmo   <span class="comentario">// Aquí termina el algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoVariable')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Escribe tu nombre:</div>
+<div class="usuario">johan  <span class="comentario">// Aquí iria cualquier texto que ponga el cliente</span></div>
+<div class="programa">Hola johan</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Si Entonces",
+explicacion:"La estructura Si Entonces permite tomar decisiones dependiendo de una condición lógica.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoSiEntonces">
+Algoritmo MayorEdad   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','edad','guardar la edad del usuario')">edad</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>   <span class="comentario">// Variable numérica</span>
+
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','edad','guardar el número que escribe el usuario')">edad</span>   <span class="comentario">// Guardamos la edad</span>
+
+    <span class="clickable" onclick="mostrarInfo('si')">Si</span> <span class="variable" onclick="mostrarInfo('variable','edad','comparar la edad ingresada')">edad</span> <span class="clickable" onclick="mostrarInfo('condicion')">>=</span> 18 <span class="clickable" onclick="mostrarInfo('entonces')">Entonces</span>   <span class="comentario">// Evaluamos la condición</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Eres mayor de edad"
+
+    <span class="clickable" onclick="mostrarInfo('sino')">SiNo</span>   <span class="comentario">// Si la condición no se cumple</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Eres menor de edad"
+
+    <span class="clickable" onclick="mostrarInfo('finsi')">FinSi</span>   <span class="comentario">// Fin de la estructura condicional</span>
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoSiEntonces')">Copiar código</button>
+
+<div class="salida">
+<div class="usuario">20 <span class="comentario">// Aquí iria cualquier numero que ponga el cliente</span></div>
+<div class="programa">Eres mayor de edad</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Ciclo Para",
+explicacion:"El ciclo Para sirve para repetir instrucciones varias veces sin tener que escribirlas una por una.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoCicloPara">
+Algoritmo CicloPara   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('para')">Para</span> <span class="variable" onclick="mostrarInfo('variable','i','controlar cuántas veces se repite el ciclo')">i</span> = 1 <span class="clickable" onclick="mostrarInfo('hasta')">Hasta</span> 5 <span class="clickable" onclick="mostrarInfo('conpaso')">Con Paso</span> 1 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>   <span class="comentario">// Repite desde 1 hasta 5</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','i','mostrar el número actual del ciclo')">i</span>
+
+    <span class="clickable" onclick="mostrarInfo('finpara')">FinPara</span>   <span class="comentario">// Fin del ciclo</span>
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoCicloPara')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">1</div>
+<div class="programa">2</div>
+<div class="programa">3</div>
+<div class="programa">4</div>
+<div class="programa">5</div>
+<div class="nota">Nota: El ciclo inicia en 1 y termina en 5 avanzando de 1 en 1.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Ciclo Mientras",
+explicacion:"El ciclo Mientras repite un bloque de instrucciones mientras se cumpla una condición. Aquí se muestran dos ejemplos: uno con números y otro con texto.",
+codigo:`
+<!-- Ejemplo 1: números -->
+<div class="bloque">
+<h3>Ejemplo 1: Ciclo con números</h3>
+<div class="codigo" id="codigoNumeros">
+Algoritmo CicloMientrasNumerico   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','num','controlar cuántas veces se repite el ciclo')">num</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','num','inicializamos en 1')">num</span> = 1
+
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','num','comparar con 3 para saber cuándo parar')">num</span> <= 3 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','num','mostrar el número actual')">num</span>
+
+        <span class="variable" onclick="mostrarInfo('variable','num','aumentar num en 1 cada vez')">num</span> = <span class="variable" onclick="mostrarInfo('variable','num','aumentar num en 1 cada vez')">num</span> + 1
+
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+
+FinAlgoritmo
+</div>
+<button onclick="copiarCodigoId('codigoNumeros')">Copiar código</button>
+<div class="salida">
+<div class="programa">1</div>
+<div class="programa">2</div>
+<div class="programa">3</div>
+<div class="nota">Nota: El ciclo termina cuando num > 3.</div>
+</div>
+</div>
+
+<!-- Ejemplo 2: Ciclo con texto -->
+<div class="bloque">
+<h3>Ejemplo 2: Ciclo con texto</h3>
+<div class="codigo" id="codigoTexto2">Algoritmo CicloMientrasTexto <span class="comentario">// Inicio del algoritmo</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','respuesta','guardar la respuesta del usuario')">respuesta</span> <span class="clickable" onclick="mostrarInfo('cadena')">Como Cadena</span>
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','respuesta','comparar si es diferente de Si')">respuesta</span> <span class="variable" onclick="mostrarInfo('diferente')">&lt;&gt;</span> "Si" <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Escribe (Si) para salir del bucle:"
+        <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','respuesta','guardar lo que escribe el usuario')">respuesta</span>
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+FinAlgoritmo
+</div>
+<button onclick="copiarCodigoId('codigoTexto2')">Copiar código</button>
+<div class="salida">
+<div class="programa">Escribe 'Si' para salir del bucle:</div>
+<div class="usuario">No</div>
+<div class="programa">Escribe 'Si' para salir del bucle:</div>
+<div class="usuario">No</div>
+<div class="programa">Escribe 'Si' para salir del bucle:</div>
+<div class="usuario">Si</div>
+<div class="programa">El bucle terminó.</div>
+<div class="nota">Nota: El ciclo termina cuando el usuario escribe 'Si' (esto incluye mayúsculas. Si se utiliza 'si' en lugar de 'Si', se contará como texto distinto).</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Contadores",
+explicacion:"Un contador es una variable que aumenta normalmente de uno en uno. Se usa para llevar la cuenta de cuántas veces ocurre algo.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Contador</h3>
+<div class="codigo" id="codigoContador">
+Proceso ContadorEjemplo   <span class="comentario">// Inicio del proceso</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','contador','guardar el valor del contador')">contador</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>   <span class="comentario">// Creamos la variable contador</span>
+    
+    <span class="variable" onclick="mostrarInfo('variable','contador','inicializamos en 0')">contador</span> = 0   <span class="comentario">// Inicializamos en 0</span>
+    
+    <span class="variable" onclick="mostrarInfo('variable','contador','aumentamos en 1')">contador</span> = <span class="variable" onclick="mostrarInfo('variable','contador','aumentamos en 1')">contador</span> + 1
+    
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','contador','mostrar el valor actual del contador')">contador</span>
+FinProceso   <span class="comentario">// Fin del proceso</span>
+</div>
+<button onclick="copiarCodigoId('codigoContador')">Copiar código</button>
+<div class="salida">
+<div class="programa">1</div>
+<div class="nota">Nota: El contador inició en 0 y aumentó en 1.</div>
+<div class="nota">Esto se suele usar para poder determinar un numero de personas o de datos y que se sume cada vez q da una vuelta a un ciclo o que se inserta algo.</div>
+</div>
+</div>
+`,
+salida:"" // ya está incluido dentro del bloque
+},
+
+{
+titulo:"Acumuladores",
+explicacion:"Un acumulador es una variable que va guardando una suma. A diferencia del contador, no aumenta solo de uno en uno, sino que puede sumar diferentes valores.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Acumulador</h3>
+<div class="codigo" id="codigoAcumulador">Proceso EjemploAcumulador <span class="comentario">// Inicio del proceso</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','suma','guardar la suma total')">suma</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número que ingresa el usuario')">numero</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','suma','inicializar en 0 porque es un acumulador')">suma</span> = 0
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa un número:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número que escribe el usuario')">numero</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','suma','sumar el número ingresado al total acumulado')">suma</span> = <span class="variable" onclick="mostrarInfo('variable','suma','sumar el número ingresado al total acumulado')">suma</span> + <span class="variable" onclick="mostrarInfo('variable','numero','valor que se agrega al acumulador')">numero</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "La suma total es:", <span class="variable" onclick="mostrarInfo('variable','suma','mostrar el resultado acumulado')">suma</span>
+FinProceso
+</div>
+<button onclick="copiarCodigoId('codigoAcumulador')">Copiar código</button>
+<div class="salida">
+<div class="programa">Ingresa un número:</div>
+<div class="usuario">5</div>
+<div class="programa">La suma total es: 5</div>
+<div class="nota">Nota: El acumulador empezó en 0 y luego se le sumó el número ingresado.</div>
+<div class="nota">Esto sirve para poder ir acomulando un valor como diferentes precios para ver el total de una compra o la suma de varios valores</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Sacar Promedio de Notas",
+
+antesCodigo:"antes del codigo se debe saber que para sacar un promedio se necesita sumar los valores a los cuales quieres promediar y dividirlos por la cantidad de valores que tienes. por ejemplo si tienes las notas 1 4 y 2 las tienes q sumar todas (1+4+2) y dividirlas por el numero de notas (en este caso 3) lo cual quedaria (1+4+2)=7 y se divide entre 3    7/3= 2,3  siendo 2,3 el promedio",
+
+explicacion:"Este ejemplo muestra cómo calcular el promedio cuando no sabemos cuántas notas ingresará el usuario. Se usan un acumulador para sumar las notas y un contador para saber cuántas se ingresaron.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Promedio con cantidad indeterminada</h3>
+
+<div class="codigo" id="codigoPromedio">
+Algoritmo PromedioNotas   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','nota','guardar cada nota ingresada')">nota</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','suma','acumular todas las notas')">suma</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','contador','contar cuántas notas se ingresan')">contador</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','promedio','guardar el resultado final')">promedio</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span> <span class="comentario">// como el promedio nos puede dar un numero decimal como 1.4 o 3.5 le vamos a definir como real (osea que incluye enteros y decimales) </span>
+
+    <span class="variable" onclick="mostrarInfo('variable','suma','inicia en 0 porque es acumulador')">suma</span> = 0
+    <span class="variable" onclick="mostrarInfo('variable','contador','inicia en 0 porque es contador')">contador</span> = 0
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa una nota (o -1 para terminar):"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','nota','guardar la nota ingresada')">nota</span>
+
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','nota','verificar que no sea -1')">nota</span> <span class="variable" onclick="mostrarInfo('diferente')">&lt;&gt;</span> -1 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span> <span class="comentario">// esto es para que cuando queramos salir del ciclo mientras y dejar de introducir notas solo se tenga que escribir -1</span>
+
+        <span class="variable" onclick="mostrarInfo('variable','suma','sumar cada nota al total')">suma</span> = <span class="variable" onclick="mostrarInfo('variable','suma','sumar cada nota al total')">suma</span> + <span class="variable" onclick="mostrarInfo('variable','nota','valor que se suma')">nota</span>
+        <span class="variable" onclick="mostrarInfo('variable','contador','aumentar en 1 cada vez que entra una nota')">contador</span> = <span class="variable" onclick="mostrarInfo('variable','contador','aumentar en 1 cada vez que entra una nota')">contador</span> + 1
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa otra nota (o -1 para terminar):"
+        <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','nota','guardar nueva nota')">nota</span>
+
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','promedio','dividir la suma entre el contador')">promedio</span> = <span class="variable" onclick="mostrarInfo('variable','suma','total acumulado')">suma</span> / <span class="variable" onclick="mostrarInfo('variable','contador','cantidad de notas ingresadas')">contador</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El promedio es:", <span class="variable" onclick="mostrarInfo('variable','promedio','mostrar resultado final')">promedio</span>
+
+FinAlgoritmo
+</div>
+
+<button onclick="copiarCodigoId('codigoPromedio')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingresa una nota (o -1 para terminar):</div>
+<div class="usuario">4</div>
+<div class="programa">Ingresa otra nota (o -1 para terminar):</div>
+<div class="usuario">5</div>
+<div class="programa">Ingresa otra nota (o -1 para terminar):</div>
+<div class="usuario">3</div>
+<div class="programa">Ingresa otra nota (o -1 para terminar):</div>
+<div class="usuario">-1</div>
+<div class="programa">El promedio es: 4</div>
+<div class="nota">Nota: Se sumaron las notas (4+5+3=12) y se dividieron entre 3.</div>
+</div>
+</div>
+`,
+
+salida:""
+},
+
+{
+titulo:"Tablas de Multiplicar",
+
+explicacion:"Este ejemplo muestra cómo generar la tabla de multiplicar de cualquier número usando un ciclo Para. El ciclo repetirá la multiplicación desde 1 hasta 10 mostrando cada resultado.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Tabla de multiplicar con ciclo Para</h3>
+
+<div class="codigo" id="codigoTabla">
+
+Algoritmo TablaMultiplicar   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número del que se quiere la tabla')">numero</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','i','contador que irá del 1 al 10')">i</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa el número para ver su tabla:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar número ingresado')">numero</span>
+
+    <span class="clickable" onclick="mostrarInfo('para')">Para</span> <span class="variable" onclick="mostrarInfo('variable','i','inicia en 1')">i</span> <- 1 Hasta 10 <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> <span class="variable" onclick="mostrarInfo('variable','numero','número elegido')">numero</span> " x " <span class="variable" onclick="mostrarInfo('variable','i','valor actual del ciclo')">i</span> " = " <span class="variable" onclick="mostrarInfo('variable','numero','número elegido')">numero</span> * <span class="variable" onclick="mostrarInfo('variable','i','valor actual del ciclo')">i</span>
+
+    <span class="clickable" onclick="mostrarInfo('finpara')">FinPara</span>
+
+FinAlgoritmo
+
+</div>
+
+<button onclick="copiarCodigoId('codigoTabla')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingresa el número para ver su tabla:</div>
+<div class="usuario">5</div>
+<div class="programa">5 x 1 = 5</div>
+<div class="programa">5 x 2 = 10</div>
+<div class="programa">5 x 3 = 15</div>
+<div class="programa">5 x 4 = 20</div>
+<div class="programa">5 x 5 = 25</div>
+<div class="programa">5 x 6 = 30</div>
+<div class="programa">5 x 7 = 35</div>
+<div class="programa">5 x 8 = 40</div>
+<div class="programa">5 x 9 = 45</div>
+<div class="programa">5 x 10 = 50</div>
+<div class="nota">Nota: El ciclo repite la multiplicación desde 1 hasta 10 automáticamente.</div>
+</div>
+</div>
+`,
+
+salida:""
+},
+
+{
+titulo:"Aplicar Descuentos",
+
+antesCodigo:"Antes del código debes saber que un descuento se calcula multiplicando el precio por el porcentaje que se quiere descontar. Por ejemplo, si algo cuesta 100 y se le aplica un 20% de descuento, primero se calcula 100 * 0.20 = 20. Luego ese valor se resta al precio original: 100 - 20 = 80. Ese sería el precio final.",
+
+explicacion:"Este ejemplo muestra cómo calcular el precio final de un producto aplicando un 20% de descuento. Se usa una variable para guardar el precio original, otra para el descuento y otra para el precio final.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Aplicar 20% de descuento</h3>
+
+<div class="codigo" id="codigoDescuento">
+
+Algoritmo AplicarDescuento   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','precio','guardar el precio original')">precio</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','descuento','guardar el valor del descuento')">descuento</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span>
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','precioFinal','guardar el precio con descuento aplicado')">precioFinal</span> <span class="clickable" onclick="mostrarInfo('real')">Como Real</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingrese el precio del producto:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','precio','precio ingresado por el usuario')">precio</span>
+
+    <span class="comentario">// Calculamos el 20% del precio</span>
+    <span class="variable" onclick="mostrarInfo('variable','descuento','calcular el 20% del precio')">descuento</span> = <span class="variable" onclick="mostrarInfo('variable','precio','precio original')">precio</span> * 0.20
+
+    <span class="comentario">// Restamos el descuento al precio original</span>
+    <span class="variable" onclick="mostrarInfo('variable','precioFinal','precio después del descuento')">precioFinal</span> = <span class="variable" onclick="mostrarInfo('variable','precio','precio original')">precio</span> - <span class="variable" onclick="mostrarInfo('variable','descuento','valor descontado')">descuento</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El precio con descuento es:", <span class="variable" onclick="mostrarInfo('variable','precioFinal','mostrar resultado final')">precioFinal</span>
+
+FinAlgoritmo
+
+</div>
+
+<button onclick="copiarCodigoId('codigoDescuento')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingrese el precio del producto:</div>
+<div class="usuario">200</div>
+<div class="programa">El precio con descuento es: 160</div>
+<div class="nota">Nota: Se calculó el 20% de 200 (200 * 0.20 = 40) y luego se restó al precio original (200 - 40 = 160).</div>
+</div>
+</div>
+`,
+
+salida:""
+},
+
+{
+titulo:"Función Módulo (MOD)",
+
+antesCodigo:"El módulo (MOD) se usa para saber qué sobra cuando dividimos un número. Por ejemplo, si dividimos 7 entre 2, sobra 1. Ese número que sobra es lo que nos da el MOD. Se usa mucho para saber si un número es par o impar, para turnarse en juegos (como jugador 1 y jugador 2), o para hacer que algo se repita cada cierto tiempo.",
+explicacion:"El operador MOD se usa para saber el residuo de una división. Es muy útil para verificar si un número es par o impar, ya que todos los números pares al dividirse entre 2 tienen residuo 0.",
+
+codigo:`
+<div class="bloque">
+<h3>Ejemplo: Saber si un número es par o impar</h3>
+
+<div class="codigo" id="codigoModulo">
+
+Algoritmo NumeroParImpar   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','numero','guardar el número ingresado')">numero</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','residuo','guardar el residuo de la división')">residuo</span> <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "Ingresa un número:"
+    <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> <span class="variable" onclick="mostrarInfo('variable','numero','número ingresado por el usuario')">numero</span>
+
+    <span class="comentario">// Calculamos el residuo usando MOD</span>
+    <span class="variable" onclick="mostrarInfo('variable','residuo','guardar el residuo de numero dividido entre 2')">residuo</span> = <span class="variable" onclick="mostrarInfo('variable','numero','número ingresado')">numero</span> <span class="clickable" onclick="mostrarInfo('mod')">MOD</span> 2
+
+    <span class="clickable" onclick="mostrarInfo('si')">Si</span> <span class="variable" onclick="mostrarInfo('variable','residuo','verificamos si el residuo es 0')">residuo</span> = 0 <span class="clickable" onclick="mostrarInfo('entonces')">Entonces</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El número es par"
+
+    <span class="clickable" onclick="mostrarInfo('sino')">SiNo</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "El número es impar"
+
+    <span class="clickable" onclick="mostrarInfo('finsi')">FinSi</span>
+
+FinAlgoritmo
+
+</div>
+
+<button onclick="copiarCodigoId('codigoModulo')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Ingresa un número:</div>
+<div class="usuario">7</div>
+<div class="programa">El número es impar</div>
+<div class="nota">Nota: 7 MOD 2 = 1. Como el residuo no es 0, el número es impar.</div>
+</div>
+</div>
+`,
+
+salida:""
+},
+
+{
+titulo:"Activadores",
+antesCodigo:"Un activador es una variable que usamos como interruptor. Sirve para activar o desactivar algo dentro del programa. Normalmente guarda un valor como Verdadero o Falso, y dependiendo de eso el programa hace algo o no lo hace. Se usa mucho para controlar accesos, validar información o repetir procesos hasta que ocurra algo.",
+explicacion:"Un activador funciona como un botón invisible dentro del programa. Cuando está en Verdadero permite que algo pase, y cuando está en Falso lo detiene. Es muy útil para controlar ciclos, evitar errores o manejar permisos dentro de un programa.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoActivadores">
+Algoritmo PuertaConCiclo   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> Como <span class="clickable" onclick="mostrarInfo('logico')">Logico</span>
+
+    <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> = <span class="clickable" onclick="mostrarInfo('falso')">Falso</span>   <span class="comentario">// La puerta está cerrada</span>
+
+    <span class="clickable" onclick="mostrarInfo('mientras')">Mientras</span> <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> = <span class="clickable" onclick="mostrarInfo('falso')">Falso</span> <span class="clickable" onclick="mostrarInfo('hacer')">Hacer</span>
+
+        <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "¿Quieres abrir la puerta? (si/no)"
+        <span class="clickable" onclick="mostrarInfo('leer')">Leer</span> respuesta
+
+        <span class="clickable" onclick="mostrarInfo('si')">Si</span> respuesta = "si" <span class="clickable" onclick="mostrarInfo('entonces')">Entonces</span>
+            <span class="variable" onclick="mostrarInfo('variable','puertaAbierta','indica si la puerta está abierta')">puertaAbierta</span> = <span class="clickable" onclick="mostrarInfo('verdadero')">Verdadero</span>   <span class="comentario">// Se activa</span>
+        <span class="clickable" onclick="mostrarInfo('finsi')">FinSi</span>
+
+    <span class="clickable" onclick="mostrarInfo('finmientras')">FinMientras</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> "La puerta se abrió 🎉"
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoActivadores')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">¿Quieres abrir la puerta? (si/no)</div>
+<div class="programa">si</div>
+<div class="programa">La puerta se abrió 🎉</div>
+<div class="nota">Nota: Mientras puertaAbierta era Falso, el programa seguía preguntando. Cuando cambió a Verdadero, salió del ciclo.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+titulo:"Jerarquía de Operaciones",
+antesCodigo:"Cuando hacemos varias operaciones en una misma línea (como sumar y multiplicar), no se resuelven en el orden en que aparecen. Hay un orden especial que el programa siempre respeta. Primero se hacen las multiplicaciones y divisiones, y después las sumas y restas.",
+explicacion:"Si no seguimos el orden correcto, el resultado cambia. El programa siempre resuelve primero multiplicar o dividir, y al final sumar o restar.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoJerarquia">
+Algoritmo OrdenOperaciones   <span class="comentario">// Inicio del algoritmo</span>
+
+    <span class="clickable" onclick="mostrarInfo('definir')">Definir</span> resultado <span class="clickable" onclick="mostrarInfo('entero')">Como Entero</span>
+
+    resultado = 2 + 3 * 4   <span class="comentario">// ¿Cuánto da esto?</span>
+
+    <span class="clickable" onclick="mostrarInfo('escribir')">Escribir</span> resultado
+
+FinAlgoritmo   <span class="comentario">// Fin del algoritmo</span>
+</div>
+
+<button onclick="copiarCodigoId('codigoJerarquia')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">14</div>
+<div class="nota">
+Muchos pensarían: (2 + 3) = 5 y 5 * 4 = 20 ❌<br>
+Pero el programa hace primero 3 * 4 = 12 ✔<br>
+Luego 2 + 12 = 14 ✔<br><br>
+
+Primero multiplicar y dividir.<br>
+Después sumar y restar.<br><br>
+
+Si queremos que la suma se haga primero, usamos paréntesis:<br>
+(2 + 3) * 4 = 20 ✔<br><br>
+
+Ejemplo más claro:<br>
+12 + 14 * 2 = 40 ❌<br>
+Porque primero se hace 14 * 2 = 28 y luego 12 + 28 = 40.<br><br>
+
+Pero si queremos sumar primero:<br>
+(12 + 14) * 2 = 52 ✔<br>
+Los paréntesis obligan al programa a resolver eso primero.
+</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Variables en Python",
+explicacion:"Una variable en Python sirve para guardar un dato. A diferencia de PSeInt, en Python no tienes que escribir Definir ni decir el tipo de dato antes. Solo escribes el nombre de la variable, el signo igual y el valor que quieres guardar.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonVariables">
+<span class="variable" onclick="mostrarInfo('variable','nombre','guardar el nombre de una persona')">nombre</span> = <span class="clickable" onclick="mostrarInfo('textoPython')">"Johan"</span>   <span class="comentario"># Guardamos un texto</span>
+<span class="variable" onclick="mostrarInfo('variable','edad','guardar una edad')">edad</span> = 18          <span class="comentario"># Guardamos un número entero</span>
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Nombre:"</span>, <span class="variable" onclick="mostrarInfo('variable','nombre','mostrar el nombre guardado')">nombre</span>)
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Edad:"</span>, <span class="variable" onclick="mostrarInfo('variable','edad','mostrar la edad guardada')">edad</span>)
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonVariables')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Nombre: Johan</div>
+<div class="programa">Edad: 18</div>
+<div class="nota">Nota: Python entiende solo si el dato es texto, número entero o decimal según el valor que le pongas.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Escribir y Leer Datos",
+explicacion:"En Python usamos print para mostrar mensajes en pantalla e input para pedirle un dato al usuario. Es parecido a Escribir y Leer en PSeInt.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonInputPrint">
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Escribe tu nombre:"</span>)
+
+<span class="variable" onclick="mostrarInfo('variable','nombre','guardar lo que escribe el usuario')">nombre</span> = <span class="clickable" onclick="mostrarInfo('inputPython')">input</span>()
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Hola"</span>, <span class="variable" onclick="mostrarInfo('variable','nombre','mostrar el nombre escrito')">nombre</span>)
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonInputPrint')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Escribe tu nombre:</div>
+<div class="usuario">Johan</div>
+<div class="programa">Hola Johan</div>
+<div class="nota">Nota: input siempre recibe texto. Si necesitas un número, hay que convertirlo.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Convertir Texto a Número",
+explicacion:"Cuando usamos input, Python recibe lo que escribe el usuario como texto. Si queremos hacer operaciones matemáticas, debemos convertir ese texto a número usando int para enteros o float para decimales.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonConversion">
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Escribe tu edad:"</span>)
+
+<span class="variable" onclick="mostrarInfo('variable','edad','guardar la edad como número')">edad</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>())
+
+<span class="variable" onclick="mostrarInfo('variable','edadProxima','guardar la edad del próximo año')">edadProxima</span> = <span class="variable" onclick="mostrarInfo('variable','edad','usar la edad ingresada')">edad</span> + 1
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"El próximo año tendrás"</span>, <span class="variable" onclick="mostrarInfo('variable','edadProxima','mostrar el resultado')">edadProxima</span>)
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonConversion')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Escribe tu edad:</div>
+<div class="usuario">18</div>
+<div class="programa">El próximo año tendrás 19</div>
+<div class="nota">Nota: int convierte el texto "18" en el número 18 para poder sumarle 1.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Si Entonces en Python (if) y sus complementos",
+explicacion:"El if sirve para tomar decisiones. Python revisa el if y los elif de arriba hacia abajo. Cuando encuentra la primera condición verdadera, ejecuta esa parte y ya no revisa los demás elif. elif sirve para probar otra condición si las anteriores no se cumplieron. else se usa al final, cuando ninguna condición anterior fue verdadera.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonIf">
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Escribe tu edad:"</span>)
+<span class="variable" onclick="mostrarInfo('variable','edad','guardar la edad del usuario')">edad</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>())
+
+<span class="clickable" onclick="mostrarInfo('ifPython')">if</span> <span class="variable" onclick="mostrarInfo('variable','edad','comparar si es mayor o igual a 18')">edad</span> >= 18:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Eres mayor de edad"</span>)
+<span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','edad','comparar si tiene 13 años o más')">edad</span> >= 13:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Eres adolescente"</span>)
+<span class="clickable" onclick="mostrarInfo('elsePython')">else</span>:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Eres niño"</span>)
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonIf')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Escribe tu edad:</div>
+<div class="usuario">15</div>
+<div class="programa">Eres adolescente</div>
+<div class="nota">Nota: Python revisa de arriba hacia abajo. Si un if o elif se cumple, entra ahí y ya no revisa los demás elif. Por eso el orden de las condiciones importa.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Ciclo For en Python",
+explicacion:"El ciclo for sirve para repetir instrucciones varias veces. En Python se usa mucho con range, que crea una secuencia de números.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonFor">
+<span class="clickable" onclick="mostrarInfo('forPython')">for</span> <span class="variable" onclick="mostrarInfo('variable','i','guardar el número actual del ciclo')">i</span> in <span class="clickable" onclick="mostrarInfo('rangePython')">range</span>(1, 6):
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="variable" onclick="mostrarInfo('variable','i','mostrar el número actual')">i</span>)
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonFor')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">1</div>
+<div class="programa">2</div>
+<div class="programa">3</div>
+<div class="programa">4</div>
+<div class="programa">5</div>
+<div class="nota">Nota: range(1, 6) llega hasta 5. El 6 no se incluye.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Ciclo While en Python",
+explicacion:"El ciclo while repite instrucciones mientras una condición sea verdadera. Se parece al Mientras de PSeInt.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonWhile">
+<span class="variable" onclick="mostrarInfo('variable','numero','controlar cuántas veces se repite el ciclo')">numero</span> = 1
+
+<span class="clickable" onclick="mostrarInfo('whilePython')">while</span> <span class="variable" onclick="mostrarInfo('variable','numero','comparar si todavía es menor o igual a 3')">numero</span> <= 3:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="variable" onclick="mostrarInfo('variable','numero','mostrar el número actual')">numero</span>)
+    <span class="variable" onclick="mostrarInfo('variable','numero','aumentar en 1 para que el ciclo pueda terminar')">numero</span> = <span class="variable" onclick="mostrarInfo('variable','numero','usar el valor actual')">numero</span> + 1
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonWhile')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">1</div>
+<div class="programa">2</div>
+<div class="programa">3</div>
+<div class="nota">Nota: Si no aumentamos numero, el ciclo nunca termina.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Listas en Python",
+explicacion:"Una lista sirve para guardar varios datos en una sola variable. Es como tener una caja con varios espacios adentro.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonListas">
+<span class="variable" onclick="mostrarInfo('variable','frutas','guardar varios textos en una lista')">frutas</span> = [<span class="clickable" onclick="mostrarInfo('textoPython')">"manzana"</span>, <span class="clickable" onclick="mostrarInfo('textoPython')">"pera"</span>, <span class="clickable" onclick="mostrarInfo('textoPython')">"uva"</span>]
+
+<span class="clickable" onclick="mostrarInfo('forPython')">for</span> <span class="variable" onclick="mostrarInfo('variable','fruta','guardar una fruta en cada vuelta')">fruta</span> in <span class="variable" onclick="mostrarInfo('variable','frutas','recorrer todos los datos de la lista')">frutas</span>:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="variable" onclick="mostrarInfo('variable','fruta','mostrar la fruta actual')">fruta</span>)
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonListas')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">manzana</div>
+<div class="programa">pera</div>
+<div class="programa">uva</div>
+<div class="nota">Nota: El ciclo for va tomando una fruta por cada vuelta.</div>
+</div>
+</div>
+`,
+salida:""
+},
+
+{
+lenguaje:"python",
+titulo:"Vectores en Python",
+carpeta:true,
+explicacion:"Un vector sirve para guardar varios datos en un solo grupo, pero en diferentes espacios. Cada espacio tiene una posición, y por eso podemos guardar o buscar datos usando esa posición.",
+subtemas:[
+{
+titulo:"¿Qué es y para qué sirve?",
+explicacion:"Un vector sirve para guardar varios datos en un solo grupo, pero separados por espacios. Es útil cuando necesitamos manejar varios números, notas, precios o nombres sin crear una variable diferente para cada dato.",
+codigo:`
+<div class="codigo" id="codigoVectorBasico">
+<span class="variable" onclick="mostrarInfo('variable','numeros','guardar varios números juntos')">numeros</span> = [10, 20, 30]
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="variable" onclick="mostrarInfo('variable','numeros','mostrar todos los números guardados')">numeros</span>)
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="variable" onclick="mostrarInfo('variable','numeros','mostrar el dato de la posición 1')">numeros</span>[1])
+</div>
+<button onclick="copiarCodigoId('codigoVectorBasico')">Copiar código</button>
+<h3>Salida</h3>
+<div class="salida">
+<div class="programa">[10, 20, 30]</div>
+<div class="programa">20</div>
+<div class="nota">Nota: numeros[1] muestra 20 porque Python empieza a contar las posiciones desde 0.</div>
+</div>
+`,
+salida:""
+},
+{
+titulo:"¿Cómo se llena si está vacío?",
+explicacion:"Para llenar un vector, primero preguntamos cuántos espacios va a tener. Después usamos un for con i como índice para avanzar por cada espacio del vector. Ese i es el que determina en qué espacio estamos parados para guardar el dato.",
+codigo:`
+<div class="codigo" id="codigoVectorLlenar">
+<span class="variable" onclick="mostrarInfo('variable','espacios','guardar cuántos espacios tendrá el vector')">espacios</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el número de espacios que desea que tenga el vector: "</span>))
+
+<span class="variable" onclick="mostrarInfo('variable','vector','crear el vector con espacios vacíos')">vector</span> = [0] * <span class="variable" onclick="mostrarInfo('variable','espacios','cantidad de espacios que tendrá el vector')">espacios</span>
+
+<span class="clickable" onclick="mostrarInfo('forPython')">for</span> <span class="variable" onclick="mostrarInfo('variable','i','índice que indica en qué espacio estamos')">i</span> in <span class="clickable" onclick="mostrarInfo('rangePython')">range</span>(0, <span class="variable" onclick="mostrarInfo('variable','espacios','hasta dónde debe llegar el ciclo')">espacios</span>):
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Inserte el número para la posición {i + 1}"</span>)
+    <span class="variable" onclick="mostrarInfo('variable','dato','guardar el número que escribe el usuario')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>())
+    <span class="variable" onclick="mostrarInfo('variable','vector','guardar el dato en el espacio actual')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','i','posición actual del vector')">i</span>] = <span class="variable" onclick="mostrarInfo('variable','dato','dato que se guarda en el vector')">dato</span>
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="variable" onclick="mostrarInfo('variable','vector','mostrar el vector lleno')">vector</span>)
+</div>
+<button onclick="copiarCodigoId('codigoVectorLlenar')">Copiar código</button>
+<div class="salida">
+<div class="programa">Ingrese el número de espacios que desea que tenga el vector: <span class="usuario">3</span></div>
+<div class="programa">Inserte el número para la posición 1</div>
+<div class="usuario">5</div>
+<div class="programa">Inserte el número para la posición 2</div>
+<div class="usuario">8</div>
+<div class="programa">Inserte el número para la posición 3</div>
+<div class="usuario">12</div>
+<div class="programa">[5.0, 8.0, 12.0]</div>
+<div class="nota">Nota: usamos i como índice para avanzar por cada espacio. Python empieza en 0 porque el primer espacio del vector es vector[0], no vector[1]. Mostramos i + 1 solo para que el usuario vea posición 1, 2, 3 de forma más natural.</div>
+</div>
+`,
+salida:""
+},
+{
+titulo:"Cambiar un dato en el espacio que uno quiera",
+explicacion:"Para cambiar un dato del vector, primero llenamos el vector. Después preguntamos qué espacio quiere cambiar el usuario y usamos esa posición para reemplazar el dato viejo por uno nuevo. Como Python empieza desde 0, usamos espacio - 1.",
+codigo:`
+<div class="codigo" id="codigoVectorInsertar">
+<span class="variable" onclick="mostrarInfo('variable','espacios','guardar cuántos espacios tendrá el vector')">espacios</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el número de espacios que desea que tenga el vector: "</span>))
+
+<span class="variable" onclick="mostrarInfo('variable','vector','crear el vector con espacios vacíos')">vector</span> = [0] * <span class="variable" onclick="mostrarInfo('variable','espacios','cantidad de espacios que tendrá el vector')">espacios</span>
+
+<span class="variable" onclick="mostrarInfo('variable','rta','guardar una respuesta')">rta</span> = <span class="clickable" onclick="mostrarInfo('textoPython')">"si"</span>
+
+<span class="clickable" onclick="mostrarInfo('forPython')">for</span> <span class="variable" onclick="mostrarInfo('variable','i','índice que indica en qué espacio estamos')">i</span> in <span class="clickable" onclick="mostrarInfo('rangePython')">range</span>(0, <span class="variable" onclick="mostrarInfo('variable','espacios','hasta dónde debe llegar el ciclo')">espacios</span>):
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Inserte el número para la posición {i + 1}"</span>)
+    <span class="variable" onclick="mostrarInfo('variable','dato','guardar el número que escribe el usuario')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>())
+    <span class="variable" onclick="mostrarInfo('variable','vector','guardar el dato en el espacio actual')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','i','posición actual del vector')">i</span>] = <span class="variable" onclick="mostrarInfo('variable','dato','dato que se guarda en el vector')">dato</span>
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedaría: {vector}"</span>)
+
+<span class="variable" onclick="mostrarInfo('variable','espacio','guardar el espacio que el usuario quiere cambiar')">espacio</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el espacio que quiere cambiar: "</span>))
+
+<span class="variable" onclick="mostrarInfo('variable','dato','guardar el dato nuevo')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el dato nuevo para el espacio {espacio}: "</span>))
+
+<span class="variable" onclick="mostrarInfo('variable','vector','cambiar el dato en el espacio elegido')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','espacio','espacio que eligió el usuario')">espacio</span> - 1] = <span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo que reemplaza al anterior')">dato</span>
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedó así: {vector}"</span>)
+</div>
+<button onclick="copiarCodigoId('codigoVectorInsertar')">Copiar código</button>
+<div class="salida">
+<div class="programa">Ingrese el número de espacios que desea que tenga el vector: <span class="usuario">3</span></div>
+<div class="programa">Inserte el número para la posición 1</div>
+<div class="usuario">5</div>
+<div class="programa">Inserte el número para la posición 2</div>
+<div class="usuario">8</div>
+<div class="programa">Inserte el número para la posición 3</div>
+<div class="usuario">12</div>
+<div class="programa">El vector quedaría: [5.0, 8.0, 12.0]</div>
+<div class="programa">Ingrese el espacio que quiere cambiar: <span class="usuario">2</span></div>
+<div class="programa">Ingrese el dato nuevo para el espacio 2: <span class="usuario">20</span></div>
+<div class="programa">El vector quedó así: [5.0, 20.0, 12.0]</div>
+<div class="nota">Nota: si el usuario dice espacio 2, Python debe usar vector[1]. Por eso hacemos espacio - 1.</div>
+</div>
+`,
+salida:""
+},
+{
+titulo:"Agregar nuevo espacio al inicio o al final",
+explicacion:"Este ejemplo sí aumenta el tamaño del vector. No reemplaza un dato viejo, sino que crea un nuevo espacio con el dato nuevo. Si elige inicio, [dato] + vector pone ese dato antes de todos. Si elige final, vector + [dato] pone ese dato después de todos.",
+codigo:`
+<div class="codigo" id="codigoVectorInicioFinal">
+<span class="variable" onclick="mostrarInfo('variable','espacios','guardar cuántos espacios tendrá el vector')">espacios</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el número de espacios que desea que tenga el vector: "</span>))
+
+<span class="variable" onclick="mostrarInfo('variable','vector','crear el vector con espacios vacíos')">vector</span> = [0] * <span class="variable" onclick="mostrarInfo('variable','espacios','cantidad de espacios que tendrá el vector')">espacios</span>
+
+<span class="clickable" onclick="mostrarInfo('forPython')">for</span> <span class="variable" onclick="mostrarInfo('variable','i','índice que indica en qué espacio estamos')">i</span> in <span class="clickable" onclick="mostrarInfo('rangePython')">range</span>(0, <span class="variable" onclick="mostrarInfo('variable','espacios','hasta dónde debe llegar el ciclo')">espacios</span>):
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Inserte el número para la posición {i + 1}"</span>)
+    <span class="variable" onclick="mostrarInfo('variable','dato','guardar el número que escribe el usuario')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>())
+    <span class="variable" onclick="mostrarInfo('variable','vector','guardar el dato en el espacio actual')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','i','posición actual del vector')">i</span>] = <span class="variable" onclick="mostrarInfo('variable','dato','dato que se guarda en el vector')">dato</span>
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedaría: {vector}"</span>)
+
+<span class="variable" onclick="mostrarInfo('variable','opcion','guardar si el usuario quiere inicio o final')">opcion</span> = <span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"¿Dónde quiere agregar el dato? inicio/final: "</span>)
+
+<span class="variable" onclick="mostrarInfo('variable','dato','guardar el dato nuevo')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el dato nuevo: "</span>))
+
+<span class="clickable" onclick="mostrarInfo('ifPython')">if</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si el usuario eligió inicio')">opcion</span> == <span class="clickable" onclick="mostrarInfo('textoPython')">"inicio"</span>:
+    <span class="variable" onclick="mostrarInfo('variable','vector','agregar el dato antes de todo el vector')">vector</span> = [<span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo que se agrega')">dato</span>] + <span class="variable" onclick="mostrarInfo('variable','vector','vector que ya estaba lleno')">vector</span>
+<span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si el usuario eligió final')">opcion</span> == <span class="clickable" onclick="mostrarInfo('textoPython')">"final"</span>:
+    <span class="variable" onclick="mostrarInfo('variable','vector','agregar el dato después de todo el vector')">vector</span> = <span class="variable" onclick="mostrarInfo('variable','vector','vector que ya estaba lleno')">vector</span> + [<span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo que se agrega')">dato</span>]
+<span class="clickable" onclick="mostrarInfo('elsePython')">else</span>:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Opción no válida"</span>)
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedó así: {vector}"</span>)
+</div>
+<button onclick="copiarCodigoId('codigoVectorInicioFinal')">Copiar código</button>
+<div class="salida">
+<div class="programa">Ingrese el número de espacios que desea que tenga el vector: <span class="usuario">3</span></div>
+<div class="programa">Inserte el número para la posición 1</div>
+<div class="usuario">5</div>
+<div class="programa">Inserte el número para la posición 2</div>
+<div class="usuario">8</div>
+<div class="programa">Inserte el número para la posición 3</div>
+<div class="usuario">12</div>
+<div class="programa">El vector quedaría: [5.0, 8.0, 12.0]</div>
+<div class="programa">¿Dónde quiere agregar el dato? inicio/final: <span class="usuario">inicio</span></div>
+<div class="programa">Ingrese el dato nuevo: <span class="usuario">2</span></div>
+<div class="programa">El vector quedó así: [2.0, 5.0, 8.0, 12.0]</div>
+<div class="nota">Nota: este ejemplo agrega un espacio nuevo. Por eso el vector pasa de tener 3 datos a tener 4. El dato va entre corchetes porque [dato] es una lista pequeña que se une con el vector.</div>
+</div>
+`,
+salida:""
+},
+{
+titulo:"Reemplazar el dato del inicio o del final",
+explicacion:"Este ejemplo no agrega un espacio nuevo. Solo cambia el dato que ya existe en la primera o en la última posición. Para cambiar el primero usamos vector[0]. Para cambiar el último usamos vector[espacios - 1].",
+codigo:`
+<div class="codigo" id="codigoVectorReemplazarInicioFinal">
+<span class="variable" onclick="mostrarInfo('variable','espacios','guardar cuántos espacios tendrá el vector')">espacios</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el número de espacios que desea que tenga el vector: "</span>))
+
+<span class="variable" onclick="mostrarInfo('variable','vector','crear el vector con espacios vacíos')">vector</span> = [0] * <span class="variable" onclick="mostrarInfo('variable','espacios','cantidad de espacios que tendrá el vector')">espacios</span>
+
+<span class="clickable" onclick="mostrarInfo('forPython')">for</span> <span class="variable" onclick="mostrarInfo('variable','i','índice que indica en qué espacio estamos')">i</span> in <span class="clickable" onclick="mostrarInfo('rangePython')">range</span>(0, <span class="variable" onclick="mostrarInfo('variable','espacios','hasta dónde debe llegar el ciclo')">espacios</span>):
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Inserte el número para la posición {i + 1}"</span>)
+    <span class="variable" onclick="mostrarInfo('variable','dato','guardar el número que escribe el usuario')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>())
+    <span class="variable" onclick="mostrarInfo('variable','vector','guardar el dato en el espacio actual')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','i','posición actual del vector')">i</span>] = <span class="variable" onclick="mostrarInfo('variable','dato','dato que se guarda en el vector')">dato</span>
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedaría: {vector}"</span>)
+
+<span class="variable" onclick="mostrarInfo('variable','opcion','guardar si el usuario quiere inicio o final')">opcion</span> = <span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"¿Qué dato quiere reemplazar? inicio/final: "</span>)
+
+<span class="variable" onclick="mostrarInfo('variable','dato','guardar el dato nuevo')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el dato nuevo: "</span>))
+
+<span class="clickable" onclick="mostrarInfo('ifPython')">if</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si el usuario eligió inicio')">opcion</span> == <span class="clickable" onclick="mostrarInfo('textoPython')">"inicio"</span>:
+    <span class="variable" onclick="mostrarInfo('variable','vector','reemplazar el primer dato')">vector</span>[0] = <span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo que reemplaza al anterior')">dato</span>
+<span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si el usuario eligió final')">opcion</span> == <span class="clickable" onclick="mostrarInfo('textoPython')">"final"</span>:
+    <span class="variable" onclick="mostrarInfo('variable','vector','reemplazar el último dato')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','espacios','cantidad de espacios del vector')">espacios</span> - 1] = <span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo que reemplaza al anterior')">dato</span>
+<span class="clickable" onclick="mostrarInfo('elsePython')">else</span>:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Opción no válida"</span>)
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedó así: {vector}"</span>)
+</div>
+<button onclick="copiarCodigoId('codigoVectorReemplazarInicioFinal')">Copiar código</button>
+<div class="salida">
+<div class="programa">Ingrese el número de espacios que desea que tenga el vector: <span class="usuario">3</span></div>
+<div class="programa">Inserte el número para la posición 1</div>
+<div class="usuario">5</div>
+<div class="programa">Inserte el número para la posición 2</div>
+<div class="usuario">8</div>
+<div class="programa">Inserte el número para la posición 3</div>
+<div class="usuario">12</div>
+<div class="programa">El vector quedaría: [5.0, 8.0, 12.0]</div>
+<div class="programa">¿Qué dato quiere reemplazar? inicio/final: <span class="usuario">final</span></div>
+<div class="programa">Ingrese el dato nuevo: <span class="usuario">20</span></div>
+<div class="programa">El vector quedó así: [5.0, 8.0, 20.0]</div>
+<div class="nota">Nota: vector[0] es el primer dato. vector[espacios - 1] es el último, porque si hay 3 espacios los índices son 0, 1 y 2.</div>
+</div>
+`,
+salida:""
+},
+{
+titulo:"Hacer un vector sin saber cuántos espacios va a tener",
+explicacion:"A veces no sabemos cuántos datos va a ingresar el usuario. En ese caso podemos empezar con un vector vacío y repetir mientras el usuario quiera seguir agregando datos. Cada vez que escribe un número, lo agregamos al final del vector usando vector = vector + [dato].",
+codigo:`
+<div class="codigo" id="codigoVectorSinEspacios">
+<span class="variable" onclick="mostrarInfo('variable','vector','guardar los datos que se van ingresando')">vector</span> = []
+<span class="variable" onclick="mostrarInfo('variable','rta','controlar si el usuario quiere seguir')">rta</span> = <span class="clickable" onclick="mostrarInfo('textoPython')">"si"</span>
+
+<span class="clickable" onclick="mostrarInfo('whilePython')">while</span> <span class="variable" onclick="mostrarInfo('variable','rta','comparar si el usuario quiere continuar')">rta</span> == <span class="clickable" onclick="mostrarInfo('textoPython')">"si"</span>:
+    <span class="variable" onclick="mostrarInfo('variable','dato','guardar el dato que escribe el usuario')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese un número: "</span>))
+    <span class="variable" onclick="mostrarInfo('variable','vector','agregar el dato al final sin saber el tamaño')">vector</span> = <span class="variable" onclick="mostrarInfo('variable','vector','vector que ya tenía datos')">vector</span> + [<span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo')">dato</span>]
+    <span class="variable" onclick="mostrarInfo('variable','rta','guardar si el usuario quiere agregar otro dato')">rta</span> = <span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"¿Desea agregar otro dato? si/no: "</span>)
+
+<span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedó así: {vector}"</span>)
+</div>
+<button onclick="copiarCodigoId('codigoVectorSinEspacios')">Copiar código</button>
+<div class="salida">
+<div class="programa">Ingrese un número: <span class="usuario">4</span></div>
+<div class="programa">¿Desea agregar otro dato? si/no: <span class="usuario">si</span></div>
+<div class="programa">Ingrese un número: <span class="usuario">7</span></div>
+<div class="programa">¿Desea agregar otro dato? si/no: <span class="usuario">si</span></div>
+<div class="programa">Ingrese un número: <span class="usuario">9</span></div>
+<div class="programa">¿Desea agregar otro dato? si/no: <span class="usuario">no</span></div>
+<div class="programa">El vector quedó así: [4.0, 7.0, 9.0]</div>
+<div class="nota">Nota: aquí no preguntamos cuántos espacios tendrá el vector. El usuario decide cuándo parar escribiendo no.</div>
+</div>
+`,
+salida:""
+},
+{
+titulo:"Menú completo con vectores",
+explicacion:"Este ejemplo junta todo lo anterior en un menú. El usuario elige qué quiere hacer escribiendo un número. Para mostrar, cambiar o agregar datos, primero debe haber creado el vector con la opción 1.",
+codigo:`
+<div class="codigo" id="codigoVectorMenu">
+<span class="variable" onclick="mostrarInfo('variable','vector','guardar todos los datos del vector')">vector</span> = []
+<span class="variable" onclick="mostrarInfo('variable','espacios','guardar cuántos espacios tiene el vector')">espacios</span> = 0
+<span class="variable" onclick="mostrarInfo('variable','creado','saber si el vector ya fue creado')">creado</span> = <span class="clickable" onclick="mostrarInfo('falsoPython')">False</span>
+<span class="variable" onclick="mostrarInfo('variable','seguir','controlar si el menú se repite')">seguir</span> = <span class="clickable" onclick="mostrarInfo('textoPython')">"si"</span>
+
+<span class="clickable" onclick="mostrarInfo('whilePython')">while</span> <span class="variable" onclick="mostrarInfo('variable','seguir','comparar si el usuario quiere continuar')">seguir</span> == <span class="clickable" onclick="mostrarInfo('textoPython')">"si"</span>:
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"¿Qué quiere hacer?"</span>)
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"1. Crear vector"</span>)
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"2. Mostrar vector"</span>)
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"3. Agregar número a la posición deseada"</span>)
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"4. Agregar dato al principio"</span>)
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"5. Agregar dato al final"</span>)
+
+    <span class="variable" onclick="mostrarInfo('variable','opcion','guardar la opción elegida')">opcion</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Elija una opción: "</span>))
+
+    <span class="clickable" onclick="mostrarInfo('ifPython')">if</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si eligió crear el vector')">opcion</span> == 1:
+        <span class="variable" onclick="mostrarInfo('variable','espacios','guardar cuántos espacios tendrá el vector')">espacios</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el número de espacios que desea que tenga el vector: "</span>))
+        <span class="variable" onclick="mostrarInfo('variable','vector','crear el vector con espacios vacíos')">vector</span> = [0] * <span class="variable" onclick="mostrarInfo('variable','espacios','cantidad de espacios del vector')">espacios</span>
+
+        <span class="clickable" onclick="mostrarInfo('forPython')">for</span> <span class="variable" onclick="mostrarInfo('variable','i','índice que indica en qué espacio estamos')">i</span> in <span class="clickable" onclick="mostrarInfo('rangePython')">range</span>(0, <span class="variable" onclick="mostrarInfo('variable','espacios','hasta dónde debe llegar el ciclo')">espacios</span>):
+            <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Inserte el número para la posición {i + 1}"</span>)
+            <span class="variable" onclick="mostrarInfo('variable','dato','guardar el número que escribe el usuario')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>())
+            <span class="variable" onclick="mostrarInfo('variable','vector','guardar el dato en el espacio actual')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','i','posición actual del vector')">i</span>] = <span class="variable" onclick="mostrarInfo('variable','dato','dato que se guarda')">dato</span>
+
+        <span class="variable" onclick="mostrarInfo('variable','creado','marcar que el vector ya existe')">creado</span> = <span class="clickable" onclick="mostrarInfo('verdaderoPython')">True</span>
+        <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector quedó así: {vector}"</span>)
+
+    <span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','creado','revisar si el vector ya fue creado')">creado</span> == <span class="clickable" onclick="mostrarInfo('falsoPython')">False</span>:
+        <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Primero debe crear el vector con la opción 1"</span>)
+
+    <span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si quiere mostrar el vector')">opcion</span> == 2:
+        <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"El vector es: {vector}"</span>)
+
+    <span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si quiere cambiar una posición')">opcion</span> == 3:
+        <span class="variable" onclick="mostrarInfo('variable','espacio','guardar la posición elegida')">espacio</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el espacio que quiere cambiar: "</span>))
+        <span class="variable" onclick="mostrarInfo('variable','dato','guardar el dato nuevo')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el dato nuevo para el espacio {espacio}: "</span>))
+        <span class="variable" onclick="mostrarInfo('variable','vector','cambiar el dato en el espacio elegido')">vector</span>[<span class="variable" onclick="mostrarInfo('variable','espacio','espacio elegido')">espacio</span> - 1] = <span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo')">dato</span>
+
+    <span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si quiere agregar al principio')">opcion</span> == 4:
+        <span class="variable" onclick="mostrarInfo('variable','dato','guardar el dato nuevo')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el dato nuevo: "</span>))
+        <span class="variable" onclick="mostrarInfo('variable','vector','agregar el dato al inicio')">vector</span> = [<span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo')">dato</span>] + <span class="variable" onclick="mostrarInfo('variable','vector','vector anterior')">vector</span>
+        <span class="variable" onclick="mostrarInfo('variable','espacios','aumentar la cantidad de espacios')">espacios</span> = <span class="variable" onclick="mostrarInfo('variable','espacios','cantidad anterior')">espacios</span> + 1
+
+    <span class="clickable" onclick="mostrarInfo('elifPython')">elif</span> <span class="variable" onclick="mostrarInfo('variable','opcion','comparar si quiere agregar al final')">opcion</span> == 5:
+        <span class="variable" onclick="mostrarInfo('variable','dato','guardar el dato nuevo')">dato</span> = <span class="clickable" onclick="mostrarInfo('floatPython')">float</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Ingrese el dato nuevo: "</span>))
+        <span class="variable" onclick="mostrarInfo('variable','vector','agregar el dato al final')">vector</span> = <span class="variable" onclick="mostrarInfo('variable','vector','vector anterior')">vector</span> + [<span class="variable" onclick="mostrarInfo('variable','dato','dato nuevo')">dato</span>]
+        <span class="variable" onclick="mostrarInfo('variable','espacios','aumentar la cantidad de espacios')">espacios</span> = <span class="variable" onclick="mostrarInfo('variable','espacios','cantidad anterior')">espacios</span> + 1
+
+    <span class="clickable" onclick="mostrarInfo('elsePython')">else</span>:
+        <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Opción no válida"</span>)
+
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('fstringPython')">f</span><span class="clickable" onclick="mostrarInfo('textoPython')">"Vector actual: {vector}"</span>)
+    <span class="variable" onclick="mostrarInfo('variable','seguir','guardar si el usuario quiere seguir')">seguir</span> = <span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"¿Desea hacer otra acción? si/no: "</span>)
+</div>
+<button onclick="copiarCodigoId('codigoVectorMenu')">Copiar código</button>
+<div class="salida">
+<div class="programa">¿Qué quiere hacer?</div>
+<div class="programa">1. Crear vector</div>
+<div class="programa">2. Mostrar vector</div>
+<div class="programa">3. Agregar número a la posición deseada</div>
+<div class="programa">4. Agregar dato al principio</div>
+<div class="programa">5. Agregar dato al final</div>
+<div class="programa">Elija una opción: <span class="usuario">1</span></div>
+<div class="programa">Ingrese el número de espacios que desea que tenga el vector: <span class="usuario">3</span></div>
+<div class="programa">Inserte el número para la posición 1</div>
+<div class="usuario">5</div>
+<div class="programa">Inserte el número para la posición 2</div>
+<div class="usuario">8</div>
+<div class="programa">Inserte el número para la posición 3</div>
+<div class="usuario">12</div>
+<div class="programa">El vector quedó así: [5.0, 8.0, 12.0]</div>
+<div class="programa">Vector actual: [5.0, 8.0, 12.0]</div>
+<div class="programa">¿Desea hacer otra acción? si/no: <span class="usuario">si</span></div>
+<br>
+<div class="programa">Elija una opción: <span class="usuario">2</span></div>
+<div class="programa">El vector es: [5.0, 8.0, 12.0]</div>
+<div class="programa">Vector actual: [5.0, 8.0, 12.0]</div>
+<div class="programa">¿Desea hacer otra acción? si/no: <span class="usuario">si</span></div>
+<br>
+<div class="programa">Elija una opción: <span class="usuario">3</span></div>
+<div class="programa">Ingrese el espacio que quiere cambiar: <span class="usuario">2</span></div>
+<div class="programa">Ingrese el dato nuevo para el espacio 2: <span class="usuario">20</span></div>
+<div class="programa">Vector actual: [5.0, 20.0, 12.0]</div>
+<div class="programa">¿Desea hacer otra acción? si/no: <span class="usuario">si</span></div>
+<br>
+<div class="programa">Elija una opción: <span class="usuario">4</span></div>
+<div class="programa">Ingrese el dato nuevo: <span class="usuario">2</span></div>
+<div class="programa">Vector actual: [2.0, 5.0, 20.0, 12.0]</div>
+<div class="programa">¿Desea hacer otra acción? si/no: <span class="usuario">si</span></div>
+<br>
+<div class="programa">Elija una opción: <span class="usuario">5</span></div>
+<div class="programa">Ingrese el dato nuevo: <span class="usuario">30</span></div>
+<div class="programa">Vector actual: [2.0, 5.0, 20.0, 12.0, 30.0]</div>
+<div class="programa">¿Desea hacer otra acción? si/no: <span class="usuario">no</span></div>
+<div class="nota">Nota: la salida muestra un ejemplo usando todas las opciones en orden. Si intenta usar 2, 3, 4 o 5 antes de crear el vector, el programa avisa que primero debe usar la opción 1.</div>
+</div>
+`,
+salida:""
+}
+]
+},
+
+{
+lenguaje:"python",
+titulo:"Funciones en Python",
+antesCodigo:"En una función, los paréntesis sirven para decir qué datos necesita recibir. Por ejemplo, si escribimos mostrar_datos(nombre, edad), estamos diciendo que esa función necesita un nombre y una edad para poder trabajar. Luego, cuando llamamos la función, le mandamos los datos reales que escribió el usuario.",
+explicacion:"Una función sirve para ejecutar varias acciones consecutivas usando una sola palabra. También ayuda a hacer mecanismos más largos de forma rápida, ahorrar líneas y dejar el programa más simple de entender. Piensa en una función como una máquina: le das datos, hace su trabajo y muestra un resultado.",
+codigo:`
+<div class="bloque">
+<h3>Ejemplo</h3>
+<div class="codigo" id="codigoPythonFunciones">
+<span class="clickable" onclick="mostrarInfo('defPython')">def</span> mostrar_datos(<span class="variable" onclick="mostrarInfo('variable','nombre','recibir el nombre escrito por el usuario')">nombre</span>, <span class="variable" onclick="mostrarInfo('variable','edad','recibir la edad escrita por el usuario')">edad</span>):
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Hola"</span>, <span class="variable" onclick="mostrarInfo('variable','nombre','mostrar el nombre recibido')">nombre</span>)
+    <span class="clickable" onclick="mostrarInfo('printPython')">print</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"El próximo año tendrás"</span>, <span class="variable" onclick="mostrarInfo('variable','edad','usar la edad recibida')">edad</span> + 1)
+
+<span class="variable" onclick="mostrarInfo('variable','nombreUsuario','guardar el nombre que escribe el usuario')">nombreUsuario</span> = <span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Nombre: "</span>)
+<span class="variable" onclick="mostrarInfo('variable','edadUsuario','guardar la edad como número')">edadUsuario</span> = <span class="clickable" onclick="mostrarInfo('intPython')">int</span>(<span class="clickable" onclick="mostrarInfo('inputPython')">input</span>(<span class="clickable" onclick="mostrarInfo('textoPython')">"Edad: "</span>))
+
+mostrar_datos(<span class="variable" onclick="mostrarInfo('variable','nombreUsuario','enviar el nombre a la función')">nombreUsuario</span>, <span class="variable" onclick="mostrarInfo('variable','edadUsuario','enviar la edad a la función')">edadUsuario</span>)
+</div>
+
+<button onclick="copiarCodigoId('codigoPythonFunciones')">Copiar código</button>
+
+<div class="salida">
+<div class="programa">Nombre: <span class="usuario">Johan</span></div>
+<div class="programa">Edad: <span class="usuario">18</span></div>
+<div class="programa">Hola Johan</div>
+<div class="programa">El próximo año tendrás 19</div>
+<div class="nota">Nota: nombre y edad son como espacios vacíos dentro de la función. Cuando llamamos mostrar_datos(nombreUsuario, edadUsuario), esos espacios se llenan con lo que escribió el usuario.</div>
+</div>
+</div>
+`,
+salida:""
+}
+
+];
+
+const lista = document.getElementById("listaTemas");
+const contenido = document.getElementById("contenido");
+const buscador = document.getElementById("buscador");
+const panelMenu = document.getElementById("panelMenu");
+const menuLenguajes = document.getElementById("menuLenguajes");
+const vistaVacia = document.getElementById("vistaVacia");
+const contadorTemas = document.getElementById("contadorTemas");
+const lenguajeActual = document.getElementById("lenguajeActual");
+
+const lenguajes = [
+    { id:"pseint", nombre:"PSeInt", descripcion:"Base actual con pseudocódigo" },
+    { id:"python", nombre:"Python", descripcion:"Próximo bloque de ejercicios" },
+    { id:"tkinter", nombre:"Python Tkinter", descripcion:"Interfaces gráficas en Python" },
+    { id:"cpp", nombre:"C++", descripcion:"Sintaxis y lógica en C++" }
+];
+
+let lenguajeActivo = "pseint";
+
+function obtenerLenguajeTema(tema){
+    return tema.lenguaje || "pseint";
+}
+
+function renderizarLenguajes(){
+    menuLenguajes.innerHTML = "";
+    lenguajes.forEach(lenguaje=>{
+        const boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = `lenguaje-btn${lenguaje.id === lenguajeActivo ? " activo" : ""}`;
+        boton.textContent = lenguaje.nombre;
+        boton.title = lenguaje.descripcion;
+        boton.onclick = ()=>cambiarLenguaje(lenguaje.id);
+        menuLenguajes.appendChild(boton);
+    });
+}
+
+function cambiarLenguaje(id){
+    lenguajeActivo = id;
+    buscador.value = "";
+    renderizarLenguajes();
+    mostrarTemas();
+}
+
+function mostrarTemas(filtro=""){
+    const lenguaje = lenguajes.find(item=>item.id === lenguajeActivo);
+    const temasFiltrados = temas
+        .map((tema,index)=>({ tema,index }))
+        .filter(item=>obtenerLenguajeTema(item.tema) === lenguajeActivo)
+        .filter(item=>item.tema.titulo.toLowerCase().includes(filtro.toLowerCase()));
+
+    lenguajeActual.textContent = lenguaje.nombre;
+    contadorTemas.textContent = temasFiltrados.length === 1
+        ? "1 tema disponible"
+        : `${temasFiltrados.length} temas disponibles`;
+
+    lista.innerHTML="";
+
+    if(temasFiltrados.length === 0){
+        lista.style.display="none";
+        vistaVacia.style.display="block";
+        vistaVacia.innerHTML = lenguajeActivo === "pseint"
+            ? "No encontré temas con esa búsqueda."
+            : `<strong>${lenguaje.nombre}</strong> todavía no tiene temas cargados. Esta sección ya está lista para agregar los próximos repasos.`;
+        return;
+    }
+
+    vistaVacia.style.display="none";
+    lista.style.display="grid";
+
+    temasFiltrados.forEach(({tema,index})=>{
+        const div=document.createElement("div");
+        div.className=tema.carpeta ? "tema carpeta" : "tema";
+        div.innerHTML=`<strong>${tema.titulo}</strong><span>${tema.explicacion}</span>`;
+        div.onclick=()=>tema.carpeta ? mostrarCarpeta(index) : mostrarContenido(index);
+        lista.appendChild(div);
+    });
+}
+
+function mostrarCarpeta(index){
+    const tema=temas[index];
+    const lenguaje = lenguajes.find(item=>item.id === obtenerLenguajeTema(tema));
+    panelMenu.style.display="none";
+    contenido.style.display="block";
+
+    contenido.innerHTML=`
+        <span class="etiqueta-lenguaje">${lenguaje.nombre}</span>
+        <h2>${tema.titulo}</h2>
+
+        <div class="bloque">
+            <h3>Carpeta</h3>
+            <p>${tema.explicacion}</p>
+        </div>
+
+        <div class="temas">
+            ${tema.subtemas.map((subtema,subIndex)=>`
+                <div class="tema" onclick="mostrarSubtema(${index},${subIndex})">
+                    <strong>${subtema.titulo}</strong>
+                    <span>${subtema.explicacion}</span>
+                </div>
+            `).join("")}
+        </div>
+
+        <button onclick="volver()">Volver</button>
+    `;
+}
+
+function mostrarContenido(index){
+    const tema=temas[index];
+    const lenguaje = lenguajes.find(item=>item.id === obtenerLenguajeTema(tema));
+    panelMenu.style.display="none";
+    contenido.style.display="block";
+
+    contenido.innerHTML=`
+        <span class="etiqueta-lenguaje">${lenguaje.nombre}</span>
+        <h2>${tema.titulo}</h2>
+
+        ${tema.antesCodigo ? `
+        <div class="bloque">
+            <h3>Antes del código</h3>
+            <p>${tema.antesCodigo}</p>
+        </div>
+        ` : ''}
+
+        <div class="bloque">
+            <h3>Explicación</h3>
+            <p>${tema.explicacion}</p>
+        </div>
+
+        <div class="bloque">
+            <h3>Código</h3>
+            ${tema.codigo}
+        </div>
+
+        ${tema.salida ? `<div class="bloque"><div class="salida">${tema.salida}</div></div>` : ''}
+
+        <button onclick="volver()">Volver</button>
+    `;
+}
+
+function mostrarSubtema(index, subIndex){
+    const carpeta=temas[index];
+    const tema=carpeta.subtemas[subIndex];
+    const lenguaje = lenguajes.find(item=>item.id === obtenerLenguajeTema(carpeta));
+    contenido.style.display="block";
+
+    contenido.innerHTML=`
+        <span class="etiqueta-lenguaje">${lenguaje.nombre}</span>
+        <h2>${carpeta.titulo}: ${tema.titulo}</h2>
+
+        <div class="bloque">
+            <h3>Explicación</h3>
+            <p>${tema.explicacion}</p>
+        </div>
+
+        <div class="bloque">
+            <h3>Código</h3>
+            ${tema.codigo}
+        </div>
+
+        ${tema.salida ? `<div class="bloque"><div class="salida">${tema.salida}</div></div>` : ''}
+
+        <button onclick="mostrarCarpeta(${index})">Volver a Vectores</button>
+        <button onclick="volver()">Volver al menú</button>
+    `;
+}
+
+function copiarCodigo(){
+    const bloque = document.querySelector("#contenido .codigo");
+    if(bloque){
+        copiarTexto(bloque.innerText);
+    }
+}
+
+function copiarCodigoId(id){
+    const bloque = document.getElementById(id);
+    if(bloque){
+        copiarTexto(bloque.innerText);
+    }
+}
+
+function copiarTexto(texto){
+    navigator.clipboard.writeText(texto)
+        .then(()=>mostrarToast("Copiado con éxito"))
+        .catch(()=>mostrarToast("No se pudo copiar", true));
+}
+
+function mostrarToast(mensaje, error=false){
+    const toastAnterior = document.querySelector(".toast");
+    if(toastAnterior){
+        toastAnterior.remove();
+    }
+
+    const toast = document.createElement("div");
+    toast.className = error ? "toast error" : "toast";
+    toast.textContent = mensaje;
+    document.body.appendChild(toast);
+
+    setTimeout(()=>{
+        toast.remove();
+    }, 2100);
+}
+
+function volver(){
+    contenido.style.display="none";
+    panelMenu.style.display="block";
+    mostrarTemas(buscador.value);
+}
+
+function mostrarInfo(tipo, nombreVar = "", proposito = ""){
+
+    let texto = "";
+
+    if(tipo === "definir"){
+        texto = "Definir se usa para crear una variable.";
+    }
+
+    else if(tipo === "cadena"){
+        texto = "Cadena significa que la variable guardará texto.";
+    }
+
+    else if(tipo === "leer"){
+        texto = "Leer sirve para guardar lo que el usuario escribe.";
+    }
+
+    else if(tipo === "escribir"){
+        texto = "Escribir sirve para mostrar mensajes en pantalla.";
+    }
+
+    else if(tipo === "printPython"){
+        texto = "print sirve para mostrar mensajes o resultados en pantalla.";
+    }
+
+    else if(tipo === "inputPython"){
+        texto = "input sirve para leer lo que escribe el usuario. En Python siempre lo recibe como texto.";
+    }
+
+    else if(tipo === "textoPython"){
+        texto = "Cuando algo está entre comillas, Python lo entiende como texto.";
+    }
+
+    else if(tipo === "intPython"){
+        texto = "int convierte un texto en número entero para poder hacer operaciones.";
+    }
+
+    else if(tipo === "floatPython"){
+        texto = "float convierte lo que escribe el usuario en número decimal. Sirve para guardar valores como 3.5 o 4.2.";
+    }
+
+    else if(tipo === "fstringPython"){
+        texto = "La f antes de las comillas permite meter variables dentro del texto usando llaves, como {i + 1}.";
+    }
+
+    else if(tipo === "ifPython"){
+        texto = "if significa si. Se usa para revisar una condición y tomar una decisión.";
+    }
+
+    else if(tipo === "elifPython"){
+        texto = "elif significa si no, revisa esta otra condición. Se usa cuando quieres probar otra opción antes del else.";
+    }
+
+    else if(tipo === "elsePython"){
+        texto = "else significa si no. Se ejecuta cuando la condición del if no se cumple.";
+    }
+
+    else if(tipo === "forPython"){
+        texto = "for sirve para repetir instrucciones, normalmente recorriendo números o una lista.";
+    }
+
+    else if(tipo === "rangePython"){
+        texto = "range crea una secuencia de números. Por ejemplo, range(1, 6) da 1, 2, 3, 4 y 5.";
+    }
+
+    else if(tipo === "appendPython"){
+        texto = "append agrega un dato al final de una lista o vector.";
+    }
+
+    else if(tipo === "insertPython"){
+        texto = "insert agrega un dato en la posición que tú elijas. Por ejemplo, insert(0, 10) agrega 10 al inicio.";
+    }
+
+    else if(tipo === "lenPython"){
+        texto = "len dice cuántos datos tiene una lista o vector. Sirve para saber cuál es la posición final.";
+    }
+
+    else if(tipo === "whilePython"){
+        texto = "while repite instrucciones mientras una condición siga siendo verdadera.";
+    }
+
+    else if(tipo === "defPython"){
+        texto = "def se usa para crear una función, o sea, un bloque de código que podemos usar después.";
+    }
+
+    else if(tipo === "y"){
+        texto = "Y es un operador lógico que une dos condiciones.";
+    }
+
+    else if(tipo === "si"){
+        texto = "Si indica que vamos a evaluar una condición.";
+    }
+
+    else if(tipo === "entero"){
+        texto = "Entero significa que la variable guardará números enteros.";
+    }
+
+    else if(tipo === "mientras"){
+        texto = "Mientras se usa para repetir instrucciones mientras una condición sea verdadera.";
+    }
+
+    else if(tipo === "hacer"){
+        texto = "Hacer indica que todo lo que este debajo y dentro del ciclo se repetira hasta que termine";
+    }
+
+    else if(tipo === "finmientras"){
+        texto = "FinMientras indica el final del ciclo Mientras.";
+    }
+
+    else if(tipo === "variable"){
+        texto = `Variable ${nombreVar}: ${proposito}`;
+    }
+
+    else if(tipo === "siNo"){
+        texto = "SiNo se ejecuta si la condición del Si no se cumple.";
+    }
+
+    else if(tipo === "finSi"){
+        texto = "FinSi indica el final de la estructura condicional Si Entonces.";
+    }
+
+    else if(tipo === "diferente"){
+        texto = "'<>' es un operador que significa 'diferente de'. Se usa para comparar valores.";
+    }
+
+    else if(tipo === "real"){
+        texto = "Real significa que la variable puede guardar números con decimales. Como 1,222 o 6,314";
+    }
+
+    else if(tipo === "entonces"){
+        texto = "Entonces forma parte de la estructura Si. Se ejecuta cuando la condición es verdadera.";
+    }
+
+    else if(tipo === "sino"){
+        texto = "SiNo se ejecuta cuando la condición del Si no se cumple.";
+    }
+
+    else if(tipo === "finsi"){
+        texto = "FinSi indica el final de la estructura condicional Si Entonces.";
+    }
+
+    else if(tipo === "para"){
+        texto = "Para se usa para repetir instrucciones un número específico de veces.";
+    }
+
+    else if(tipo === "hasta"){
+        texto = "Hasta indica el número final al que llegará el ciclo Para.";
+    }
+
+    else if(tipo === "conpaso"){
+        texto = "Con Paso indica de cuánto en cuánto aumenta el contador en cada repetición.";
+    }
+
+    else if(tipo === "finpara"){
+        texto = "FinPara indica el final del ciclo Para.";
+    }
+
+    else if(tipo === "condicion"){
+        texto = "'>=' significa 'mayor o igual que'. Se usa para comparar dos valores y verificar si el primero es mayor o igual al segundo.";
+    }
+
+    else if(tipo === "mod"){
+        texto = "MOD devuelve el residuo de una división. Por ejemplo: 10 MOD 3 = 1.";
+    }
+
+    else if(tipo === "logico"){
+        texto = "Lógico significa que la variable solo puede tener dos valores: Verdadero o Falso. Se usa mucho como activador.";
+    }
+
+    else if(tipo === "falso") {
+        texto = "Falso significa que algo no es cierto o está desactivado. Es como decir: no, todavía no ha pasado.";
+    }
+
+    else if(tipo === "verdadero") {
+        texto = "Verdadero significa que algo es cierto o está activado. Es como decir: sí, está funcionando."
+    }
+
+    else if(tipo === "falsoPython") {
+        texto = "False significa falso. Aquí sirve para decir que el vector todavía no ha sido creado.";
+    }
+
+    else if(tipo === "verdaderoPython") {
+        texto = "True significa verdadero. Aquí sirve para marcar que el vector ya fue creado.";
+    }
+
+    else{
+        texto = "Información no disponible.";
+    }
+
+    
+
+    const overlay = document.createElement("div");
+    overlay.className = "tooltip-overlay";
+    const box = document.createElement("div");
+    box.className = "tooltip-box";
+    box.innerHTML=`<h4>Información</h4><p>${texto}</p><button onclick="cerrarTooltip()">Cerrar</button>`;
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
+
+function cerrarTooltip(){
+    const overlays = document.querySelectorAll(".tooltip-overlay");
+    overlays.forEach(o=>o.remove());
+}
+
+buscador.addEventListener("input",(e)=>mostrarTemas(e.target.value));
+
+renderizarLenguajes();
+mostrarTemas();
+
+</script>
+
+</body>
+</html>
